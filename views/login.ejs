@@ -4,16 +4,17 @@
 <body class="body_login">
     <div class="container">
       <h2>Admin Login</h2>
-      <form id="loginForm">
+      <form id="loginForm" action="/login" method="POST">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="Enter your username">
         <p class="errorMessage" id="usernameError" class="error-message"></p>
-
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter your password">
         <p class="errorMessage" id="passwordError" class="error-message"></p>
-
         <button type="submit">Login</button>
+        <% if(error && error.length) {%>
+          <p class="errorMessage"><%= error %></p>
+        <% } %>
       </form>
     </div>
   </body>
