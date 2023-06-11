@@ -8,6 +8,11 @@
     width: 100%;
     min-height: 100vh;
     padding: 100px 20px;
+    .welcome_message{
+        margin-bottom: 15px;
+        font-size: 16px;
+        color: rgb(187, 186, 186);
+    }
     .list{
         margin-bottom: 20px;
         p{
