@@ -31,7 +31,7 @@
                 <div>
                     <div class="circle"><i class="bi bi-person" style="font-size: 1.3rem;"></i></div>
                     <div>
-                        <p>5,102</p>
+                        <p><%= CustomerCount %></p>
                         <p>Customers</p>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="circle"><i class="bi bi-truck" style="font-size: 1.3rem;"></i></div>
                     <div>
                         <p>512</p>
-                        <p>Orders</p>
+                        <p>Orders (accepted)</p>
                     </div>
                 </div>
                 <div>
@@ -61,3 +61,15 @@
     </div>
 </body>
 </html>
+
+<script>
+    function getdata(){
+        console.log("here");
+        // fetch('http://localhost:3000/')
+        fetch('https://api.adviceslip.com/advice/2')
+        .then(res => res.json())
+        .then(result => console.log(result))
+        .catch(err => console.log(err))
+    }
+    getdata()
+</script>

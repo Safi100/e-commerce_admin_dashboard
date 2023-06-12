@@ -8,5 +8,6 @@ module.exports = async (req, res) => {
     // new customers
     const NewCustomers = await customer.find({createdAt: {$gte: today}})
     // todo : latest orders
-    res.render("index", {title: "Dashboard", CustomerCount, NewCustomers})
+    res.status(200).json(CustomerCount)
+    // res.render("index", {title: "Dashboard", CustomerCount, NewCustomers})
 }

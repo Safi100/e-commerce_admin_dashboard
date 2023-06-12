@@ -7,10 +7,12 @@ const morgan = require('morgan')
 const flash = require('connect-flash')
 const { logout } = require('./controllers/auth')
 const {isLoggedIn} = require('./middleware')
+const indexPageDataFetch = require('./controllers/indexPageDataFetch')
 const app = express()
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 app.use(express.static('public'))
 app.use(morgan('dev'))
 
@@ -40,9 +42,7 @@ app.use((req, res, next)=> {
     next()
 })
 
-app.get("/", isLoggedIn, (req, res) => {
-    res.render("index", {title: "Dashboard"})
-})
+app.get("/", isLoggedIn, indexPageDataFetch)
 
 app.use('/login', authRoute)
 
