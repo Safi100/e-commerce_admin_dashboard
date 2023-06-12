@@ -4,6 +4,11 @@
     box-sizing: border-box;
     font-family: $font;
 }
+.wrapper{
+    // max-width: 1500px;
+    // margin: auto;
+    display: flex;
+}
 body{
     min-height: 100vh;
 }
