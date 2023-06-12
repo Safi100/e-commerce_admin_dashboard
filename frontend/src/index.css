@@ -1,12 +1,18 @@
+:root{
+    --font: sans-serif;
+    --side_bar_bg: rgb(251, 251, 255);
+    --logo_color: darkblue;
+}
+
 *,*::before,*::after{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: $font;
+    font-family: var(--font);
 }
 .wrapper{
-    // max-width: 1500px;
-    // margin: auto;
+    /* max-width: 1500px; */
+    /* margin: auto; */
     display: flex;
 }
 body{
