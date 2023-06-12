@@ -14,7 +14,7 @@ module.exports.login = async (req, res) => {
     if(admin){
         const match = await bcrypt.compare(password.trim(), admin.password)
         if(match) {
-            req.session.user = admin._id
+            req.session.user = admin.username
             return res.redirect('/')
         }
         req.flash('error', "Wrong username/password")
