@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ReactSession } from 'react-client-session';
+import Axios from 'axios'
 import './login.css'
 const Login = () => {
+    ReactSession.setStoreType("localStorage");
+    const Navigate = useNavigate()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [usernameError, setUsernameError] = useState(false)
     const [PasswordError, setPasswordError] = useState(false)
+    const [wrong, setWrong] = useState(false)
     
     const HandleUserNameChange = (e) => {
         const text = e.target.value.trimStart() 
@@ -14,13 +20,26 @@ const Login = () => {
         const text = e.target.value.trimStart()
         setPassword(text)
     }
-    const handlerSubmit = (e) => {
+    const handlerSubmit = async (e) => {
         e.preventDefault()
         setUsernameError((username === "") ? true : false)
         setPasswordError((password === "") ? true : false)
         if(username !== "" && password !== ""){
             const user = {username, password}
-            console.log(user);
+            // todo : post method to localhost:3000/login
+            try{
+                await Axios.post('http://localhost:8000/login', {username, password})
+                .then(res => {
+                    setWrong((res.data !== "match") ? true : false)
+                    if(res.data){
+                        console.log(res.data);
+                        ReactSession.set("username", res.data);
+                        Navigate('/')
+                    }
+                })
+            }catch(err){
+                console.log(err);
+            }
         }
     }
 
@@ -36,6 +55,7 @@ const Login = () => {
                     <input value={password} onChange={HandlePasswordChange} type="password" name="password" placeholder="Enter your password"></input>
                     {PasswordError && <p className="errorMessage">Please enter a password.</p>}
                     <button type="submit">Login</button>
+                    {wrong && <p className='errorMessage'>Wront username/password</p>}
                 </form>
             </div>
         </div>
