@@ -4,20 +4,16 @@ const Admin = require('../models/admin')
 module.exports.login = async (req, res) => {
     const {username, password} = req.body
     const admin = await Admin.findOne({username: username.trim()})
-    if(admin){
-        const match = await bcrypt.compare(password.trim(), admin.password)
-        if(match) {
-            return res.json(username)
-        }else{
-            return res.json(null)
-        }
-       }else{
-        return res.json('wrong')
+    if(admin && bcrypt.compare(password.trim(), admin.password)){
+        req.session.user = admin.username
+        return res.json(req.session.user)
+    }else{
+        return res.json(null)
     }
 }
 module.exports.logout = (req, res) => {
     if(req.session.user){
         req.session.destroy();
     }
-    res.redirect('/login')
+    res.json(true)
 }
