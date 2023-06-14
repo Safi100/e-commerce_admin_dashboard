@@ -11,12 +11,14 @@
     font-family: var(--font);
 }
 .wrapper{
-    /* max-width: 1500px; */
+    max-width: 1500px;
+    padding: 25px;
     /* margin: auto; */
     display: flex;
 }
-body{
+body, #root{
     min-height: 100vh;
+    display: flex;
 }
 li{
     list-style: none;
@@ -24,4 +26,8 @@ li{
 a{
     text-decoration: none;
     color: unset;
+}
+.MuiPaper-root, .MuiBox-root{
+    position: unset !important;
+    min-height: 100vh !important;
 }
