@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import Navbar from './components/navbar/Navbar';
 import Sidebar from './components/sidebar/Sidebar';
 import Login from './components/login/Login'
+import CustomersPage from './components/customersPage/CustomersPage'
 import IndexPage from './components/indexPage/IndexPage'
 import { ReactSession } from 'react-client-session';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
@@ -15,13 +15,15 @@ const App = () => {
         }
     },[])
     return (
+        <>
+            {window.location.pathname !== '/login' && <Sidebar />}
               <Routes>
                 <Route path='/login' element={<Login/>} />
-                <Route element={[<Navbar />, <Sidebar />]}>
-                    <Route exact path='/' element={<IndexPage/>} />
-                </Route>
+                <Route path='/customers' element={<CustomersPage/>} />
+                <Route exact path='/' element={<IndexPage/>} />
                   {/* <Route path='*' element={<NotFound/>} /> */}
               </Routes>
+        </>
     );
 }
 
