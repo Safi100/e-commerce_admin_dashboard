@@ -32,7 +32,7 @@ const ProductSchema = new Schema({
     },
     still_available:{
         type: Boolean,
-        default: false
+        default: true
     },
     category:{
         type: Schema.Types.ObjectId,
