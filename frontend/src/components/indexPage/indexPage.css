@@ -1,0 +1,30 @@
+.wrapper_main{
+    margin: unset;
+}
+.important_dashboard_data{
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+.important_dashboard_data > div{
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-basis: 23%;
+    gap: 10px;
+    align-items: center;
+    padding: 15px 10px;
+}
+.important_dashboard_data > div div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.important_dashboard_data > div .circle{
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(251, 251, 255);
+    border-radius: 50%;
+}
