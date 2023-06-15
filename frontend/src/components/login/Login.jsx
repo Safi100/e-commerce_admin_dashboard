@@ -29,16 +29,17 @@ const Login = () => {
             // todo : post method to localhost:3000/login
             try{
                 await Axios.post('http://localhost:8000/login', {username, password})
-                .then(res => {
+                .then(async res => {
                     setWrong((res.data !== "match") ? true : false)
                     if(res.data){
-                        console.log(res.data);
                         ReactSession.set("username", res.data);
                         Navigate('/')
+                    }else{
+                        setWrong("Wrong username/password")
                     }
                 })
             }catch(err){
-                console.log(err);
+                setWrong(err)
             }
         }
     }
@@ -55,7 +56,7 @@ const Login = () => {
                     <input value={password} onChange={HandlePasswordChange} type="password" name="password" placeholder="Enter your password"></input>
                     {PasswordError && <p className="errorMessage">Please enter a password.</p>}
                     <button type="submit">Login</button>
-                    {wrong && <p className='errorMessage'>Wront username/password</p>}
+                    {wrong && <p className='errorMessage'>{wrong.message}</p>}
                 </form>
             </div>
         </div>

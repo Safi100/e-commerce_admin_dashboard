@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     min-height: 100vh;
+    width: 100%;
 }
 .body_login .container {
   max-width: 400px;
