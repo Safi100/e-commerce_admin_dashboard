@@ -1,0 +1,20 @@
+.row{
+    display: flex;
+    justify-content: center;
+    width: 100% ;
+}
+.card{
+    width: 100%;
+    max-width:18rem;
+    height: auto;
+}
+.product_description{
+    /* height: 150px; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.card .product_image{
+    height: 150px;
+    object-fit: cover;
+}
