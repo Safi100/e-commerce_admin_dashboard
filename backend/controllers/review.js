@@ -1,5 +1,4 @@
 const Review = require('../models/review')
-
 module.exports.GetReviews = async (req, res) => {
     var review
     const {orderBy} = req.query
@@ -17,7 +16,7 @@ module.exports.GetReviews = async (req, res) => {
         break;
     
         default:
-            review = await Review.find({})
+            review = await Review.find({}).populate('author').populate('product')
         break;
     }
     res.json(review)
