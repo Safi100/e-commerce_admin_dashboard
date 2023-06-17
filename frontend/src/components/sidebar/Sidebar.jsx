@@ -147,7 +147,8 @@ export default function MiniDrawer() {
         </List>
         <Divider />
         <List>
-        <ListItem key={"customers"} disablePadding sx={{ display: "block" }}>
+            <a href="/customers">
+            <ListItem key={"customers"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                   <PersonOutlinedIcon />
@@ -155,6 +156,8 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Customers"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+            </a>
+            <a href="/products">
             <ListItem key={"PRODUCTS"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -163,6 +166,8 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Products"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+            </a>
+            <a href="/orders">
             <ListItem key={"Orders"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -171,10 +176,12 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Orders"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+            </a>
         </List>
         <Divider />
         <List>
-            <ListItem key={"all_mail"} disablePadding sx={{ display: "block" }}>
+          <a href="/reviews">
+          <ListItem key={"all_mail"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                   <RateReviewOutlinedIcon />
@@ -182,6 +189,7 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Reviews"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
+          </a>
             <ListItem key={"message"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
