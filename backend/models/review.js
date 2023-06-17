@@ -18,7 +18,7 @@ const ReviewSchema = new Schema({
     },
     author : {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Customer'
     },
     product: {
         type: Schema.Types.ObjectId,
