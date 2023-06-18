@@ -8,16 +8,26 @@ import Select from '@mui/material/Select';
 import Review from '../../components/rating/Review';
 
 const Reviews = () => {
-    const [orderBy, setorderBy] = React.useState('');
+    const [orderBy, setorderBy] = useState('');
+    const [filterByCategory, setFilterByCategory] = useState('')
     const [reviews, setReviews] = useState([])
-    const handleChange = (event) => {
+    const [categories, setCategories] = useState([])
+    const handleOrderByChange = (event) => {
         setorderBy(event.target.value);
       };
+    const handleFilterByCategoryChange = (event) => {
+      setFilterByCategory(event.target.value);
+      };
       useEffect(()=> {
-        Axios.get(`http://localhost:8000/reviews?orderBy=${orderBy}`)
+        Axios.get(`http://localhost:8000/category`)
+        .then(res => {setCategories(res.data)})
+        .catch(err => console.log(err))
+      }, [])
+      useEffect(()=> {
+        Axios.get(`http://localhost:8000/reviews?orderBy=${orderBy}&category=${filterByCategory}`)
         .then(res => {setReviews(res.data)})
         .catch(err => console.log(err))
-      }, [orderBy])
+      }, [orderBy, filterByCategory])
     
     return (
         <div className='wrapper'>
@@ -27,16 +37,32 @@ const Reviews = () => {
                   labelId="demo-simple-select-autowidth-label"
                   id="demo-simple-select-autowidth"
                   value={orderBy}
-                  onChange={handleChange}
+                  onChange={handleOrderByChange}
                   autoWidth
                   label=">Sort by"
+                >
+                  <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value={"newest"}>Newest Rating</MenuItem>
+                  <MenuItem value={"top"}>Top Rating</MenuItem>
+                  <MenuItem value={'lowest'}>Lowest Rating</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl sx={{ mb: 2, ml: 4, minWidth: 180 }}>
+                <InputLabel id="demo-simple-select-autowidth-label2">Filter by category</InputLabel>
+                <Select
+                  labelId="demo-simple-select-autowidth-label2"
+                  id="demo-simple-select-autowidth2"
+                  value={filterByCategory}
+                  onChange={handleFilterByCategoryChange}
+                  autoWidth
+                  label=">Filter by category"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={"newest"}>Newest Rating</MenuItem>
-                  <MenuItem value={"top"}>Top Rating</MenuItem>
-                  <MenuItem value={'lowest'}>Lowest Rating</MenuItem>
+                  {categories.map((category) => (
+                    <MenuItem key={category._id} value={`${category.CategoryName}`}>{category.CategoryName}</MenuItem>
+                    ))}
                 </Select>
             </FormControl>
             <div className="reviews_container">
@@ -44,6 +70,7 @@ const Reviews = () => {
                     <Review review={review} key={review._id}/>
                 ))}
             </div>
+            {console.log(reviews)}
         </div>
     );
 }
