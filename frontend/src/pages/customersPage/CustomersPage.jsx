@@ -2,7 +2,6 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Axios from 'axios'
 const columns = [
-  { field: 'id', headerName: 'ID', width: 230 },
   { field: 'firstName', headerName: 'First name', width: 130 },
   { field: 'lastName', headerName: 'Last name', width: 130 },
   { field: 'email', headerName: 'Email', type: 'String', width: 190},
@@ -25,22 +24,22 @@ export default function DataTable() {
     }
     fetchUsers()
       }, [])
-      return (
+  return (
         <div className="wrapper">
           <h2 className='heading_text'>Customers</h2>
           <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10, 20]}
-        checkboxSelection
-      />
-    </div>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5, 10, 20, 50, 100]}
+              checkboxSelection
+            />
+          </div>
     </div>
   );
 }
