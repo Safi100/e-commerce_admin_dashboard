@@ -13,6 +13,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 .card .product_image{
     height: 150px;
