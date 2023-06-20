@@ -20,16 +20,15 @@ const Login = () => {
         const text = e.target.value.trimStart()
         setPassword(text)
     }
-    const handlerSubmit = async (e) => {
+    const handlerSubmit = (e) => {
         e.preventDefault()
         setUsernameError((username === "") ? true : false)
         setPasswordError((password === "") ? true : false)
         if(username !== "" && password !== ""){
             const user = {username, password}
-            // todo : post method to localhost:3000/login
             try{
-                await Axios.post('http://localhost:8000/login', {username, password})
-                .then(async res => {
+                Axios.post('http://localhost:8000/login', {username, password})
+                .then(res => {
                     setWrong((res.data !== "match") ? true : false)
                     if(res.data){
                         ReactSession.set("username", res.data);
