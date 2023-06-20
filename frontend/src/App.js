@@ -7,7 +7,11 @@ import Products from './pages/products/Products';
 import { ReactSession } from 'react-client-session';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
 import ProductProfile from './pages/products/ProductProfile';
+import NewProduct from './pages/newProductPage/NewProduct'
 import Reviews from './pages/review/Reviews';
+import Brand from './pages/Brand/Brand';
+import Category from './pages/Category/Category';
+
 const App = () => {
     const Navigate = useNavigate()
     ReactSession.setStoreType("localStorage");
@@ -26,6 +30,9 @@ const App = () => {
                 <Route path='/customers' element={<CustomersPage/>} />
                 <Route path='/products' element={<Products/>} />
                 <Route path='/reviews' element={<Reviews/>} />
+                <Route path='/brand' element={<Brand/>} />
+                <Route path='/category' element={<Category/>} />
+                <Route path='/products/new' element={<NewProduct/>} />
                 <Route path='/products/:id' element={<ProductProfile/>} />
                   {/* <Route path='*' element={<NotFound/>} /> */}
               </Routes>
