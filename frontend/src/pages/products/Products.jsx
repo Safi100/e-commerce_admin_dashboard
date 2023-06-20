@@ -17,7 +17,7 @@ const Products = () => {
                     <img className='product_image' src={(!product.images.length > 0) ? NoImage : ""} alt="" />
                     <div className="card-body">
                         <h5 className="card-title">{product.title}</h5>
-                        <p className="card-text product_description">{product.description}</p>
+                        <p className="card-text mb_2 product_description">{product.description}</p>
                         <a href={`/products/${product._id}`} className="btn btn-primary">Product page</a>
                     </div>
                 </div>
