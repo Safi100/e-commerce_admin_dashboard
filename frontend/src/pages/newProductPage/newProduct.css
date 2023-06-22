@@ -36,7 +36,7 @@ form .description{
 form .description textarea{
     width: 100%;
 }
-.inputs .input .input-box{
+.input-box{
     height: 35px;
     width: 100%;
     outline: none;
@@ -45,17 +45,21 @@ form .description textarea{
     border-radius: 5px;
     font-size: 16px;
     border-bottom-width: 2px;
-    transition: all 0.3s ease;
+    transition: border 0.3s ease;
 }
 .cont form .details{
     display: block;
     font-weight: 500;
     margin-bottom: 5px;
 }
-.inputs .input input:focus,.inputs .input input:valid{
+.input-box:focus, .input-box:valid{
 border-color:#9b59b6;
 }
-form .Gender-details .Gender-title{
+.textarea{
+    height: unset;
+    padding-top: 5px;
+}
+form .choose-details .choose-title{
     font-size: 20px;
     font-weight: 500;
 }
@@ -65,11 +69,11 @@ form .choose{
     margin: 14px 0;
     gap: 30px;
 }
-.Gender-details .choose label{
+.choose-details .choose label{
 display: flex;
 align-items: center;
 }
-.Gender-details .choose input{
+.choose-details .choose input{
     width: 18px;
     height: 18px;
     background: #d9d9d9;
@@ -105,7 +109,7 @@ form .button input:hover{
     .choose{
         flex-direction: column;
     }
-    form .Gender-details .choose{
+    form .choose-details .choose{
         width: 100%;
     }
     .cont form .inputs{
