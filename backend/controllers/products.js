@@ -1,28 +1,24 @@
-const Products = require("../models/product")
-const multer  = require('multer')
+const Product = require("../models/product")
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '/uploads/images')
-    },
-    filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      cb(null, file.fieldname + '-' + uniqueSuffix)
-    }
-})
-const upload = multer({ storage: storage })
+
+
 
 module.exports.getProducts = async (req, res) => {
-    const products = await Products.find()
+    const products = await Product.find()
     res.json(products)
 }
 
 module.exports.createProduct = async (req, res) => {
-    
+    const product = req.body
+    console.log(req.files);
+    console.log(product);
+    const newProduct = new Product({
+        title: ""
+    })
 }
 
 module.exports.productProfie = async (req, res) => {
     const id = req.params.id
-    const product = await Products.findById(id)
+    const product = await Product.findById(id)
     res.json(product)
 }
