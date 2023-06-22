@@ -8,8 +8,6 @@ import './newProduct.css'
 const NewProduct = () => {
     const [Categories, setCategories] = useState([])
     const [Brands, setBrands] = useState([])
-
-    
     const [title, setTitle] = useState('')
     const [price, setPrice] = useState(0)
     const [discount, setDiscount] = useState(0)
@@ -19,7 +17,7 @@ const NewProduct = () => {
     const [description, setDescription] = useState('')
     const [still_available, setStill_available] = useState(true)
     const [chose_for_you, setChose_for_you] = useState(false)
-
+    const [error, setError] = useState('')
 
     const handleTitleChange = (e) => {
         const text = e.target.value.trimStart() 
@@ -35,7 +33,6 @@ const NewProduct = () => {
     };
     const handleImagesChange = (e) => {
         setImages([...e.target.files])
-        // console.log(e.target.files[0])
     }
     const handleDescriptionChange = (e) => {
         const text = e.target.value.trimStart() 
@@ -56,15 +53,35 @@ const NewProduct = () => {
         setCategory(e.target.value);
     };
     const handleSubmit = (e) => {
+        setError('')
+        console.log(images);
         e.preventDefault()
-        Axios.post('http://localhost:8000/test', {images})
-    } 
-    useEffect(()=> {
-        images.map((img) => (
-            console.log(img)
-        ))
-        // console.log(images[2])
-    }, [images])
+        if(images.length > 4){
+            setError('You can upload max 4 photos.')
+            return;
+        }
+        images.forEach(img => {
+            const type = img.type.split('/')[0]
+            if(type !== "image"){
+                setError('You can only upload images.')
+            }
+        })
+        let formData = new FormData();
+        formData.append('title', title)
+        formData.append('price', price)
+        formData.append('discount', discount)
+        formData.append('category', Category)
+        formData.append('brand', Brand)
+        formData.append('description', description)
+        formData.append('chose_for_you', chose_for_you)
+        formData.append('still_available', still_available)
+        images.forEach((image) => {
+            formData.append(`img`, image);
+        });
+        Axios.post('http://localhost:8000/products', formData)
+        .then(success => console.log(success))
+        .catch(err => console.log(err))
+    }
     useEffect(()=> {
         Axios.get(`http://localhost:8000/category`)
         .then(res => {setCategories(res.data)})
@@ -86,15 +103,15 @@ const NewProduct = () => {
                 </div>
                 <div className="input">
                     <span className="details">Price</span>
-                    <input className="input-box" value={price} onChange={handlePriceChange} name='product_price' type="number" placeholder="Enter your uername" required />
+                    <input className="input-box" onChange={handlePriceChange} name='product_price' type="number" placeholder="Enter price" required />
                 </div>
                 <div className="input">
                     <span className="details">Discount</span>
-                    <input className="input-box" value={discount} onChange={handleDiscountChange} name='product_discount' type="number" placeholder="Enter discount (default is 0)" />
+                    <input className="input-box" onChange={handleDiscountChange} name='product_discount' type="number" placeholder="Enter discount (default is 0)" />
                 </div>
                 <div className="input">
                     <label className="details">Images</label>
-                    <input className="form-control input-box" onChange={handleImagesChange} name="product_images" type="file" id="formFileMultiple" required multiple />
+                    <input className="form-control input-box" accept="image/*" onChange={handleImagesChange} name="product_images" type="file" id="formFileMultiple" multiple/>
                 </div>
                 <div className="input">
                     <label className="details">Category</label>
@@ -136,36 +153,37 @@ const NewProduct = () => {
                 </div>
                 <div className='description'>
                     <label className="details">Description</label>
-                    <textarea name="product_description" cols="30" rows="4"></textarea>
+                    <textarea className='input-box textarea' name="product_description" cols="30" rows="4" required></textarea>
                 </div>
             </div>
-            <div className="Gender-details">
-                <span className="Gender-title">Still available (default is yes)</span>
+            <div className="choose-details">
+                <span className="choose-title">Still available (default is yes)</span>
                 <div className="choose">
                     <label htmlFor="yes">
                         <input type="radio" value={true} name="still_available" id="yes"/>
-                        <span className="gender" id="yes">yes</span>
+                        <span id="yes">yes</span>
                     </label>
                     <label htmlFor="no">
                         <input type="radio" value={false} name="still_available" id="no"/>
-                        <span className="gender" id='no'>no</span>
+                        <span id='no'>no</span>
                     </label>
                 </div>
             </div>
-            <div className="Gender-details">
-                <span className="Gender-title">Chosen for you (default is no)</span>
+            <div className="choose-details">
+                <span className="choose-title">Chosen for you (default is no)</span>
                 <div className="choose">
                     <label htmlFor="yes">
                             <input type="radio" value={true} name="chose_for_you" id="yes"/>
-                            <span className="gender" id="yes">yes</span>
+                            <span id="yes">yes</span>
                         </label>
                         <label htmlFor="no">
                             <input type="radio" value={false} name="chose_for_you" id="no"/>
-                            <span className="gender" id='no'>no</span>
+                            <span  id='no'>no</span>
                         </label>
                 </div>
             </div>
                 <div className="button">
+                    {error && <p className='text-danger fw-bold'>{error}</p>}
                     <input type="submit" value="Add Product" />
                 </div>
         </form>
