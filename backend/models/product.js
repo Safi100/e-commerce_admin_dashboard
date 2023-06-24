@@ -20,6 +20,14 @@ const ProductSchema = new Schema({
         max: 99,
         default: 0
     },
+    priceToPay : {
+        type: Number,
+        required: true,
+        min: 0,
+        default: function () {
+            return this.price - (this.discount / 100) * this.price;
+        }
+    },
     images:[
         {
             url: {
@@ -56,6 +64,8 @@ const ProductSchema = new Schema({
             ref: 'Review'
         }
     ]
-})
+},
+{timestamps: true}
+)
 
 module.exports = mongoose.model('Product', ProductSchema)
