@@ -1,11 +1,29 @@
 const Product = require("../models/product")
 
-
-
-
 module.exports.getProducts = async (req, res) => {
-    const products = await Product.find()
-    res.json(products)
+    var products
+    const {orderBy, category} = req.query
+    switch(orderBy){
+        case "price_low":
+            products = await Product.find().sort({priceToPay: 1})
+            break;
+        case "price_high":
+            products = await Product.find().sort({priceToPay: -1})
+        break;
+        case "avg_rating":
+            // todo: todo later after modify rating...
+            products = await Product.find()
+            break;
+        default:
+            products = await Product.find()            
+        break;
+    }
+    if(category !==""){
+        const filteredDocumentsByCategory = products.filter(doc => doc.product.category.CategoryName === `${category}`);
+        res.json(filteredDocumentsByCategory)
+    }else{
+        res.json(products)
+    }
 }
 
 module.exports.createProduct = async (req, res) => {
