@@ -1,8 +1,9 @@
 const express = require('express')
 const { getProducts, productProfie, createProduct } = require('../controllers/products')
 const router = express.Router({mergeParams: true})
-const multer  = require('multer')
-const upload = multer({ dest: './uploads/images' })
+const multer = require('multer')
+const { storage } = require('../cloudinary')
+const upload = multer({storage})
 
 router.route('/')
 .get(getProducts)
