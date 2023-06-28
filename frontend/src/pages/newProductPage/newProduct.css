@@ -42,6 +42,7 @@ form .description textarea{
     outline: none;
     border:1px solid #CCC;
     padding-left: 15px;
+    padding-right: 15px;
     border-radius: 5px;
     font-size: 16px;
     border-bottom-width: 2px;
