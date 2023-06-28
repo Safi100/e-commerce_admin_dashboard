@@ -84,6 +84,15 @@ const NewProduct = () => {
             if(success.status == 200){
                 setSuccess('Product added successfully')
                 e.target.reset();
+                setTitle('')
+                setPrice(0)
+                setDiscount(0)
+                setImages([])
+                setCategory('')
+                setBrand('')
+                setDescription('')
+                setChose_for_you(false)
+                setStill_available(true)
             }
         })
         .catch(err => console.log(err))
