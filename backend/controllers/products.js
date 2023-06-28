@@ -48,6 +48,6 @@ module.exports.createProduct = async (req, res) => {
 
 module.exports.productProfie = async (req, res) => {
     const id = req.params.id
-    const product = await Product.findById(id)
+    const product = await Product.findById(id).populate('reviews').populate('category').populate('brand')
     res.json(product)
 }
