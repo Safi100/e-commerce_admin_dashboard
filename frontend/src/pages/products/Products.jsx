@@ -24,8 +24,11 @@ const Products = () => {
         .catch(err => console.log(err))
     }, [filterByCategory, orderBy])
     return (
-        <div className='p-3'>
-        <FormControl sx={{ mb: 2, minWidth: 100 }}>
+        <div className='p-3 w-100'>
+        {Products.length === 0 && <h2 className='text-center text-danger m-auto fs-1'>No products yet</h2>}    
+        {(Products.length > 0) &&
+        <>  
+              <FormControl sx={{ mb: 2, minWidth: 100 }}>
                 <InputLabel id="demo-simple-select-autowidth-label">Sort by</InputLabel>
                 <Select
                   labelId="demo-simple-select-autowidth-label"
@@ -38,6 +41,7 @@ const Products = () => {
                   <MenuItem value=""><em>None</em></MenuItem>
                   <MenuItem value={"price_low"}>Price: Low to High</MenuItem>
                   <MenuItem value={"price_high"}>Price: High to Low</MenuItem>
+                  <MenuItem value={'newest'}>Newest</MenuItem>
                   <MenuItem value={'avg_rating'}>Average rating</MenuItem>
                 </Select>
             </FormControl>
@@ -55,14 +59,16 @@ const Products = () => {
                             <span><sup className='sign'>$</sup>{product.priceToPay}</span>
                             {(product.price !== product.priceToPay ) ? <span className='priceBefore text-secondary'>${product.price}</span> : ""}
                         </p>
-                        <p className={(product.discount > 0) ? "text-danger" : "text-secondary"}>{(product.discount > 0) ? `Discount is %${product.discount}` : "No discount"}</p>
-                        {/* <p className="card-text mb_2 product_description">{product.description}</p> */}
+                        <p className={(product.discount > 0) ? "text-danger" : "text-secondary"}>{(product.discount > 0) ? `Discount: %${product.discount}` : "No discount"}</p>
+                        <p className="card-text mt-1">Added on {new Date(product.createdAt).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })}</p>
                         <a href={`/products/${product._id}`} className="btn btn-primary mt-2">Product page</a>
                     </div>
                 </div>
             ))}
             
         </div>
+        </>
+        }
         </div>
     );
 }
