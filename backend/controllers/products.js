@@ -5,17 +5,20 @@ module.exports.getProducts = async (req, res) => {
     const {orderBy, category} = req.query
     switch(orderBy){
         case "price_low":
-            products = await Product.find().sort({priceToPay: 1})
-            break;
+            products = await Product.find().sort({priceToPay: 1}).populate('reviews')
+        break;
         case "price_high":
-            products = await Product.find().sort({priceToPay: -1})
+            products = await Product.find().sort({priceToPay: -1}).populate('reviews')
+        break;
+        case "newest":
+            products = await Product.find().sort({createdAt: -1}).populate('reviews')
         break;
         case "avg_rating":
             // todo: todo later after modify rating...
-            products = await Product.find()
-            break;
+            products = await Product.find().populate('reviews')
+        break;
         default:
-            products = await Product.find()            
+            products = await Product.find().populate('reviews')        
         break;
     }
     if(category !==""){
