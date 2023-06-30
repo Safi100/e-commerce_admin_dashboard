@@ -6,6 +6,7 @@ const ProductProfile = () => {
     const [product, setProduct] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState('')
     const { id } = useParams()
     useEffect(()=> {
         Axios.get(`http://localhost:8000/products/${id}`)
@@ -13,11 +14,15 @@ const ProductProfile = () => {
             setProduct(res.data)
             setLoading(false)
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err)
+            setError(err)
+        })
     }, [])
     return (
     <>
-        {loading && <h2>Loading...</h2>}
+        {error && <h2 className='text-danger m-3'>{error.response.data}</h2>}
+        {(loading && !error) && <h2 className='m-3'>Loading...</h2>}
         {!loading && <>
         <div className='productProfile_container'>
         <div className="product_container">
@@ -52,7 +57,7 @@ const ProductProfile = () => {
                     {!product.chose_for_you && <p className='mt-1'>Not chosen for customer</p>}
                     {product.still_available && <p className='mt-1'>Available on Warehouse</p>}
                     {!product.still_available && <p className='text-danger mt-1'>Not available on Warehouse</p>}
-                    <a href={`/product/edit/${product._id}`} className='btn btn-sm btn-warning mt-2'>Update product</a>
+                    <a href={`/products/${product._id}/edit`} className='btn btn-sm btn-warning mt-2'>Update product</a>
                 </div>
             </div>
             <div className='mt-4'>
