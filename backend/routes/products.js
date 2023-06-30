@@ -1,5 +1,5 @@
 const express = require('express')
-const { getProducts, productProfie, createProduct } = require('../controllers/products')
+const { getProducts, productProfie, createProduct, updateProduct } = require('../controllers/products')
 const router = express.Router({mergeParams: true})
 const multer = require('multer')
 const { storage } = require('../cloudinary')
@@ -11,6 +11,7 @@ router.route('/')
 
 router.route('/:id')
 .get(productProfie)
+.put(updateProduct)
 
 
 module.exports = router
