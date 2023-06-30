@@ -45,9 +45,20 @@ module.exports.createProduct = async (req, res) => {
     await newProduct.save()
     res.send(newProduct)
 }
+module.exports.updateProduct = async (req, res) => {
+    const id = req.params.id
+    const product = req.body
+    const UpdatedProduct = Product.findById(id)
+    // if(UpdatedProduct.images.length ){
 
+    // }
+    console.log(UpdatedProduct)
+}
 module.exports.productProfie = async (req, res) => {
     const id = req.params.id
     const product = await Product.findById(id).populate('reviews').populate('category').populate('brand')
+    if(!product){
+        return res.status(404).json("Product not found")
+    }
     res.json(product)
 }
