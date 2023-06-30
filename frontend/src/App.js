@@ -10,6 +10,7 @@ import ProductProfile from './pages/products/ProductProfile';
 import NewProduct from './pages/newProductPage/NewProduct'
 import Reviews from './pages/review/Reviews';
 import Brand from './pages/Brand/Brand';
+import EditProduct from './pages/editProduct/EditProduct'
 import Category from './pages/Category/Category';
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
                 <Route path='/category' element={<Category/>} />
                 <Route path='/products/new' element={<NewProduct/>} />
                 <Route path='/products/:id' element={<ProductProfile/>} />
+                <Route path='/products/:id/edit' element={<EditProduct/>} />
                   {/* <Route path='*' element={<NotFound/>} /> */}
               </Routes>
         </>
