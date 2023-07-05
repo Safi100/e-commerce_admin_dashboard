@@ -2,6 +2,8 @@ import  Axios  from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import  './productProfile.css'
+import NoImage from '../../assets/image-placeholder.png'
+
 const ProductProfile = () => {
     const [product, setProduct] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -35,11 +37,11 @@ const ProductProfile = () => {
                             </div>
                         ))}
                     </div>
-                    {product.images ? 
                     <div className="selected__photo">
+                    {product.images.length > 0 ? 
                         <img src={product.images[selectedIndex].url} alt={`${product.images[selectedIndex].url}`} />
-                    </div> 
-                    : null}
+                        :<img src={NoImage} alt={`product have no images`} /> }
+                    </div>
                 </div>
                 <div className="product_info">
                     <h2 className='product_title'>{product.title}</h2>
