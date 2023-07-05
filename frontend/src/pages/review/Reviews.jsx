@@ -31,6 +31,7 @@ const Reviews = () => {
     
     return (
         <div className='wrapper'>
+          {reviews.length === 0 ? <h3 className='text-danger'>No reviews yet</h3> : <>
             <FormControl sx={{ mb: 2, minWidth: 100 }}>
                 <InputLabel id="demo-simple-select-autowidth-label">Sort by</InputLabel>
                 <Select
@@ -40,7 +41,7 @@ const Reviews = () => {
                   onChange={handleOrderByChange}
                   autoWidth
                   label=">Sort by"
-                >
+                  >
                   <MenuItem value=""><em>None</em></MenuItem>
                   <MenuItem value={"newest"}>Newest Rating</MenuItem>
                   <MenuItem value={"top"}>Top Rating</MenuItem>
@@ -67,10 +68,11 @@ const Reviews = () => {
             </FormControl>
             <div className="reviews_container">
                 {reviews.map((review) => (
-                    <Review review={review} key={review._id}/>
-                ))}
+                  <Review review={review} key={review._id}/>
+                  ))}
             </div>
             {console.log(reviews)}
+          </>}
         </div>
     );
 }
