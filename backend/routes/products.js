@@ -1,5 +1,5 @@
 const express = require('express')
-const { getProducts, productProfie, createProduct, updateProduct } = require('../controllers/products')
+const { getProducts, productProfie, createProduct, updateProduct, deleteImages } = require('../controllers/products')
 const router = express.Router({mergeParams: true})
 const multer = require('multer')
 const { storage } = require('../cloudinary')
@@ -11,7 +11,9 @@ router.route('/')
 
 router.route('/:id')
 .get(productProfie)
-.put(updateProduct)
+.put(upload.array('img', 4), updateProduct)
 
+router.route('/:id/deleteImages')
+.put(deleteImages)
 
 module.exports = router
