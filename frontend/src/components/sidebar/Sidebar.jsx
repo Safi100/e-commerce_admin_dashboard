@@ -23,7 +23,8 @@ import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDiss
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -208,6 +209,28 @@ export default function MiniDrawer() {
             </ListItem>
         </List>
         <Divider />
+        <List>
+        <a href="/category">
+            <ListItem key={"Category"} disablePadding sx={{ display: "block" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
+                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                  <CategoryOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Category"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </a>
+            <a href="/brand">
+            <ListItem key={"Brand"} disablePadding sx={{ display: "block" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
+                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                  <ExtensionOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Brand"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </a>
+        </List>
         <List>
         {open && 
         <ListItem key={"welcome"} disablePadding sx={{ display: "block" }}>
