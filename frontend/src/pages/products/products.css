@@ -1,7 +1,7 @@
 .product{
     width: 100%;
     display: flex;
-    border: 1px solid #f5f5f5;
+    border: 2px solid #f5f5f5;
 }
 .product .product_body{
     width: 100%;

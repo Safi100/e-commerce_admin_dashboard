@@ -133,6 +133,8 @@ form .button input:hover{
 }
 .delete_img img{
     width: 150px;
+    height: 160px;
+    object-fit: contain;
 }
 .delete_img .input-cont{
     display: flex;

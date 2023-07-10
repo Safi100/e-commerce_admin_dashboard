@@ -25,9 +25,11 @@ const Products = () => {
     }, [filterByCategory, orderBy])
     return (
         <div className='p-3 w-100'>
-        {Products.length === 0 && <h2 className='text-center text-danger m-auto fs-1'>No products yet</h2>}    
+        {Products.length === 0 && <h2 className='text-center text-danger m-auto fs-1'>No products yet<p className=' fs-2'><a className='link' href="/products/new">Add new product</a></p></h2>}    
         {(Products.length > 0) &&
         <>  
+        <div className='d-flex gap-4'>
+        <div><a href='/products/new' className='btn btn-primary py-3'>Add new product</a></div>
               <FormControl sx={{ mb: 2, minWidth: 100 }}>
                 <InputLabel id="demo-simple-select-autowidth-label">Sort by</InputLabel>
                 <Select
@@ -45,6 +47,7 @@ const Products = () => {
                   <MenuItem value={'avg_rating'}>Average rating</MenuItem>
                 </Select>
             </FormControl>
+        </div>
         <div className=''>
             {console.log(Products)}
             {Products.map(product => (
