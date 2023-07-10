@@ -21,6 +21,7 @@ const columns = [
 const Category = () => {
     const [categories, setCategories] = useState([])
     const [category, setCategory] = useState('')
+    const [image, setImage] = useState('')
     const [error, setError] = useState('')
     const [result, setResult] = useState(false)
     useEffect(()=> {
@@ -30,12 +31,18 @@ const Category = () => {
     }, [result])
 
     const handleInputCategory = (e) => {
-        const text = e.target.value.trimStart() 
-        setCategory(text)
+      const text = e.target.value.trimStart() 
+      setCategory(text)
+    }
+    const handleImageChange = (e) => {
+      setImage(...e.target.files)
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        Axios.post('http://localhost:8000/category', {category})
+        let formData = new FormData();
+        formData.append('categoryName', category)
+        formData.append('categoryImage', image)
+        Axios.post('http://localhost:8000/category', formData)
         .then(res => setResult(res.data))
         .catch(err => {
             console.log(err);
@@ -44,10 +51,11 @@ const Category = () => {
             }
         })
         setCategory("")
+        e.target.reset()
     }
     return (
         <div className="wrapper">
-            <h3>All Categorys</h3>
+            <h3>All Categories</h3>
             <div style={{ height: 300, width: 500 }}>
             <DataGrid
               rows={categories}
@@ -63,10 +71,11 @@ const Category = () => {
             />
           </div>
           <div className='mt-3'>
-                <div className="title">Add Categories</div>
+                <div className="title">Add Category</div>
                 <form className='form' onSubmit={handleSubmit}>
-                    <input value={category} onChange={handleInputCategory} className='input-box' type="text"  required/>
-                    {error && <p className='text-danger fw-bold'>{error}</p>}
+                  <input className='input-box' onChange={handleImageChange} accept="image/*" type="file" required/>
+                    <input value={category} onChange={handleInputCategory} className='input-box' type="text" placeholder='Category name'  required/>
+                    {error && <p className='text-danger fw-bold mb-2'>{error}</p>}
                     <div>
                         <ColorButton type='submit' variant="contained">Add Category</ColorButton>
                     </div>
