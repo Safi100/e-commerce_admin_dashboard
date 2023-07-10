@@ -6,6 +6,16 @@ const CategorySchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    categoryImage:{
+        url: {
+            type: String,
+            required: true
+        },
+        filename: {
+            type:String,
+            required: true
+        },
     }
 })
 
