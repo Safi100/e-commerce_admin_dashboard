@@ -7,9 +7,13 @@ module.exports.getCategories = async (req, res) => {
 
 module.exports.newCategory = async (req, res) => {
     try{
-        const { category } = req.body
+        const { categoryName } = req.body
         const newCategory = new Category({
-            CategoryName: category.toLowerCase()
+            CategoryName: categoryName.toLowerCase(),
+            categoryImage:{
+                url: req.file.path,
+                filename: req.file.filename
+            }
         })
         await newCategory.save()
         res.json(newCategory)
