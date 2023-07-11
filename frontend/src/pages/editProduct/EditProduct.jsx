@@ -26,7 +26,6 @@ const EditProduct = () => {
     const [loading, setLoading] = useState(true)
     const [imagesUploadError, setImagesUploadError] = useState('')
     const [responseError, setResponseError] = useState('')
-    const [submitDeleted, setSubmitDeleted] = useState(false)
     const handleTitleChange = (e) => {
         const text = e.target.value.trimStart() 
         setTitle(text);
@@ -109,11 +108,9 @@ const EditProduct = () => {
             .catch(err => setImagesUploadError(err))
 
             setImageDeletedSuccess('Images deleted successfully')
-            setSubmitDeleted(true)
         }
     }
     useEffect(()=> {
-        setSubmitDeleted(false)
         Axios.get(`http://localhost:8000/products/${id}`)
         .then(res => {
             console.log(res.data)
