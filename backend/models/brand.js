@@ -6,7 +6,13 @@ const BrandSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    products: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Product',
+        }
+    ]
 })
 
 module.exports = mongoose.model('Brand', BrandSchema)
