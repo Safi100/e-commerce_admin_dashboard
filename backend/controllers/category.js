@@ -1,10 +1,13 @@
 const Category = require('../models/category')
-
 module.exports.getCategories = async (req, res) => {
     const categories = await Category.find()
-    res.send(categories)
+    res.json(categories)
 }
-
+module.exports.getCategoryWithCount = async (req, res) => {
+    const categories = await Category.find().populate('products')
+    categories.sort((a, b) => b.products.length - a.products.length);
+    res.json(categories);
+}
 module.exports.newCategory = async (req, res) => {
     try{
         const { categoryName } = req.body
