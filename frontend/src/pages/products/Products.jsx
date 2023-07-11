@@ -5,25 +5,26 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import Brand_Category_Selected from '../../components/Brand_Category_Selected/Brand_Category_Selected'
 import './products.css'
 const Products = () => {
     const [Products, setProducts] = useState([])
-    const [filterByCategory, setFilterByCategory] = useState('')
     const [orderBy, setorderBy] = useState('');
-    const [categories, setCategories] = useState([])
+    const [brandSelected, setBrandSelected] = useState([])
+    const [categorySelected, setCategorySelected] = useState([])
     const handleOrderByChange = (event) => {
         setorderBy(event.target.value);
       };
-    const handleFilterByCategoryChange = (event) => {
-      setFilterByCategory(event.target.value);
-      };
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${filterByCategory}`)
+        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}`)
         .then(res => {setProducts(res.data)})
         .catch(err => console.log(err))
-    }, [filterByCategory, orderBy])
+    }, [categorySelected, brandSelected, orderBy])
+
+
+
     return (
+        <>
         <div className='p-3 w-100'>
         {Products.length === 0 && <h2 className='text-center text-danger m-auto fs-1'>No products yet<p className=' fs-2'><a className='link' href="/products/new">Add new product</a></p></h2>}    
         {(Products.length > 0) &&
@@ -48,8 +49,7 @@ const Products = () => {
                 </Select>
             </FormControl>
         </div>
-        <div className=''>
-            {console.log(Products)}
+        <div>
             {Products.map(product => (
                 <div className="product mb-4" key={product._id}>
                     <div className='img_container'>
@@ -73,6 +73,13 @@ const Products = () => {
         </>
         }
         </div>
+        <div><Brand_Category_Selected
+         brandSelected={brandSelected} 
+         setBrandSelected={setBrandSelected}
+         categorySelected={categorySelected}
+         setCategorySelected={setCategorySelected} 
+         /></div>
+        </>
     );
 }
 
