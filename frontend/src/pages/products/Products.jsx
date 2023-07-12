@@ -53,7 +53,7 @@ const Products = () => {
             {Products.map(product => (
                 <div className="product mb-4" key={product._id}>
                     <div className='img_container'>
-                        <img className='product_image' src={(product.images.length > 0) ? product.images[0].url : NoImage} alt="" />
+                        <img className='product_image' loading="lazy" src={(product.images.length > 0) ? product.images[0].url : NoImage} alt="" />
                     </div>
                     <div className="product_body">
                         <h5 className="product_title">{product.title}</h5>
