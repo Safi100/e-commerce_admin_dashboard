@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Brand_Category_Selected from '../../components/Brand_Category_Selected/Brand_Category_Selected'
 import './products.css'
 const Products = () => {
@@ -12,24 +13,27 @@ const Products = () => {
     const [orderBy, setorderBy] = useState('');
     const [brandSelected, setBrandSelected] = useState([])
     const [categorySelected, setCategorySelected] = useState([])
+    const [search, setSearch] = useState('')
     const handleOrderByChange = (event) => {
         setorderBy(event.target.value);
       };
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}`)
+        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}&title=${search}`)
         .then(res => {setProducts(res.data)})
-        .catch(err => console.log(err))
-    }, [categorySelected, brandSelected, orderBy])
+        // .catch(err => console.log(err))
+    }, [categorySelected, brandSelected, orderBy, search])
 
-
+    const HandleSearch = (e) => {
+        const text = e.target.value.trimStart()
+        setSearch(text)
+    }
 
     return (
         <>
         <div className='p-3 w-100'>
-        {Products.length === 0 && <h2 className='text-center text-danger m-auto fs-1'>No products yet<p className=' fs-2'><a className='link' href="/products/new">Add new product</a></p></h2>}    
-        {(Products.length > 0) &&
-        <>  
-        <div className='d-flex gap-4'>
+        {(Products.length === 0 && !search) && <h2 className='text-center text-danger m-auto fs-1'>No products yet<p className=' fs-2'><a className='link' href="/products/new">Add new product</a></p></h2>}    
+        {(Products.length > 0 || search) && <>
+            <div className='d-flex gap-4'>
         <div><a href='/products/new' className='btn btn-primary py-3'>Add new product</a></div>
               <FormControl sx={{ mb: 2, minWidth: 100 }}>
                 <InputLabel id="demo-simple-select-autowidth-label">Sort by</InputLabel>
@@ -40,7 +44,7 @@ const Products = () => {
                   onChange={handleOrderByChange}
                   autoWidth
                   label=">Sort by"
-                >
+                  >
                   <MenuItem value=""><em>None</em></MenuItem>
                   <MenuItem value={"price_low"}>Price: Low to High</MenuItem>
                   <MenuItem value={"price_high"}>Price: High to Low</MenuItem>
@@ -49,6 +53,17 @@ const Products = () => {
                 </Select>
             </FormControl>
         </div>
+        <div>
+            <h3>Search for product</h3>
+            <div className='search_div'>
+            <SearchOutlinedIcon />
+            <input value={search} onChange={HandleSearch} type="text"  placeholder='Search for product title...'/>
+            </div>
+        </div>
+        {(Products.length === 0 && search) && <h2 className='text-center text-danger m-auto fs-1'>No products found</h2>}
+        </>}
+        {(Products.length > 0) && 
+        <> 
         <div>
             {Products.map(product => (
                 <div className="product mb-4" key={product._id}>
