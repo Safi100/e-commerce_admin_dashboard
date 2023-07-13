@@ -58,3 +58,17 @@
     top: 50%;
     left: 0;
 }
+.search_div{
+    max-width: max-content;
+    border: 1px solid #000;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0 10px;
+}
+.search_div input{
+    padding: 7px 10px;
+    outline: none;
+    border: 0;
+
+}
