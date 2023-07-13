@@ -4,7 +4,7 @@ const brand = require("../models/brand")
 const category = require('../models/category')
 
 module.exports.getProducts = async (req, res) => {
-    const { orderBy, category, brand } = req.query;
+    const { orderBy, category, brand, title } = req.query;
 
     let query = {};
 
@@ -17,6 +17,12 @@ module.exports.getProducts = async (req, res) => {
       const brandIds = brand.split(",");
       query.brand = { $in: brandIds };
     }
+
+    if (title) {
+        const titleName = title;    
+        const regex = new RegExp(titleName, "i");
+        query.title = regex;
+      }
 
     let products;
 
