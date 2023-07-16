@@ -4,14 +4,15 @@ import Login from './pages/login/Login'
 import CustomersPage from './pages/customersPage/CustomersPage'
 import IndexPage from './pages/indexPage/IndexPage'
 import Products from './pages/products/Products';
-import { ReactSession } from 'react-client-session';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
 import ProductProfile from './pages/products/ProductProfile';
 import NewProduct from './pages/newProductPage/NewProduct'
 import Reviews from './pages/review/Reviews';
 import Brand from './pages/Brand/Brand';
 import EditProduct from './pages/editProduct/EditProduct'
 import Category from './pages/Category/Category';
+import Advertisement from './pages/advertisement/Advertisement';
+import { ReactSession } from 'react-client-session';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
 
 const App = () => {
     const Navigate = useNavigate()
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path='/reviews' element={<Reviews/>} />
                 <Route path='/brand' element={<Brand/>} />
                 <Route path='/category' element={<Category/>} />
+                <Route path='/advertisement' element={<Advertisement/>} />
                 <Route path='/products/new' element={<NewProduct/>} />
                 <Route path='/products/:id' element={<ProductProfile/>} />
                 <Route path='/products/:id/edit' element={<EditProduct/>} />
