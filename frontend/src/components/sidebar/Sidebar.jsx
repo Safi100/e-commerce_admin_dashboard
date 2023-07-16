@@ -25,6 +25,8 @@ import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
+import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
+
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -175,6 +177,16 @@ export default function MiniDrawer() {
                   <ShoppingBagOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Orders"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </a>
+            <a href="/advertisement">
+            <ListItem key={"Advertisement"} disablePadding sx={{ display: "block" }}>
+              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
+                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                  <CampaignOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Advertisement"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
             </a>
