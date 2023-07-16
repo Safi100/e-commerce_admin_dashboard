@@ -4,4 +4,4 @@ const router = express.Router({mergeParams: true})
 
 router.route('/')
 .get(getAdvertisement)
-.post(upload.single('categoryImage'), newAdvertisements)
+.post(upload.single('advertisementImage'), newAdvertisements)
