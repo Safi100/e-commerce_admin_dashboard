@@ -1,9 +1,34 @@
-.adv{
-
-}
-.adv .title::before{
+.advForm .title::before{
     background: #4caf50;
 }
-.adv .input-box:focus, .adv .input-box:valid {
+.advForm .input-box:focus, .adv .input-box:valid {
     border-color: #4caf50;
+}
+.advForm .input-box{
+    display: block;
+    max-width: 400px;
+}
+.advertisement_cont{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.advertisement_cont .advertisement{
+    border: 1px solid red;
+    width: 100%;
+    max-width: 250px;
+}
+.advertisement .image_cont{
+    /* width: 40px; */
+    height: 130px;
+}
+.advertisement .image_cont img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+.advertisement .input-cont{
+    display: flex;
+    gap: 3px;
+    align-items: center;
 }
