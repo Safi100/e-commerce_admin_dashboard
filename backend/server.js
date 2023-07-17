@@ -13,6 +13,7 @@ const productRoute = require('./routes/products')
 const ReviewRoute = require('./routes/review') 
 const categoryRoute = require('./routes/category')
 const brandRoute = require('./routes/brand')
+const advertisementRoute = require('./routes/advertisement')
 
 const morgan = require('morgan')
 const { logout } = require('./controllers/auth')
@@ -60,6 +61,7 @@ app.use('/products', productRoute)
 app.use('/reviews', ReviewRoute)
 app.use('/category', categoryRoute)
 app.use('/brand', brandRoute)
+app.use('/advertisement', advertisementRoute)
 
 app.get('/logout', logout)
 
