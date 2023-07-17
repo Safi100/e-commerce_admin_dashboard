@@ -14,13 +14,17 @@ const Products = () => {
     const [brandSelected, setBrandSelected] = useState([])
     const [categorySelected, setCategorySelected] = useState([])
     const [search, setSearch] = useState('')
+    const [loading, setLoading] = useState(true)
     const handleOrderByChange = (event) => {
         setorderBy(event.target.value);
       };
     useEffect(()=> {
         Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}&title=${search}`)
-        .then(res => {setProducts(res.data)})
-        // .catch(err => console.log(err))
+        .then(res => {
+            setProducts(res.data)
+            setLoading(false)
+        })
+        .catch(err => console.log(err))
     }, [categorySelected, brandSelected, orderBy, search])
 
     const HandleSearch = (e) => {
@@ -31,7 +35,8 @@ const Products = () => {
     return (
         <>
         <div className='p-3 w-100'>
-        {(Products.length === 0 && !search) && <h2 className='text-center text-danger m-auto fs-1'>No products yet<p className=' fs-2'><a className='link' href="/products/new">Add new product</a></p></h2>}    
+        {loading && <h2>Loading...</h2>}
+        {(Products.length === 0 && !search && !loading) && <h2 className='text-center text-danger m-auto fs-1'>No products yet<p className=' fs-2'><a className='link' href="/products/new">Add new product</a></p></h2>}    
         {(Products.length > 0 || search) && <>
             <div className='d-flex gap-4'>
         <div><a href='/products/new' className='btn btn-primary py-3'>Add new product</a></div>
