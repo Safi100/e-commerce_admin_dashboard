@@ -57,5 +57,11 @@
     font-size: 24px;
 }
 .product_description{
-    max-width: 700px;
+    max-width: 800px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font-size: 14px;    
+}
+.product_description .dot_list{
+    list-style: outside;
 }
