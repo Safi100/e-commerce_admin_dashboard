@@ -57,7 +57,7 @@ module.exports.createProduct = async (req, res) => {
         title: product.title,
         price: product.price,
         discount: product.discount,
-        description: product.description,
+        description: product.description.replace(/\n/g, ''),
         chose_for_you: product.chose_for_you,
         still_available: product.still_available,
         category: product.category,
@@ -84,7 +84,7 @@ module.exports.updateProduct = async (req, res) => {
             title: product.title,
             price: product.price,
             discount: product.discount,
-            description: product.description,
+            description: product.description.replace(/\\n/g, ''),
             chose_for_you: product.chose_for_you,
             still_available: product.still_available,
             category: product.category,
@@ -101,6 +101,7 @@ module.exports.updateProduct = async (req, res) => {
         await UpdatedProduct.save()
         res.status(200).json(UpdatedProduct)
     }catch(e){
+        console.log(e);
         return res.status(409).json(e)
     }
 }
