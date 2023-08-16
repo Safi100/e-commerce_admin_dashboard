@@ -63,8 +63,15 @@ const ProductProfile = () => {
                 </div>
             </div>
             <div className='mt-4'>
-                <h3>Product description</h3>
-                <p className='product_description'>{product.description}</p>
+                <h3 className='mb-3'>Product description</h3>
+                <div className='product_description' >
+                {product.description.split(/\r\n|\n/).map((line, index) => (
+                   <div className='d-flex mb-2'>
+                    <li className='dot_list' key={index}></li>
+                    <>{line}</>
+                    </div>
+                ))}
+                </div>
             </div>
         </div>
         </>
