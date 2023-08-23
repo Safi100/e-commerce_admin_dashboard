@@ -4,6 +4,7 @@ import './advertisement.css'
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { green, purple } from '@mui/material/colors';
+import { AuthContext } from "../../context/AuthContext";
 const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(purple[500]),
     backgroundColor: green[500],
@@ -12,6 +13,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
     },
   }));
 const Advertisement = () => {
+    const {user} = React.useContext(AuthContext)
     const [advertisements, setAdvertisements] = useState([])
     const [error, setError] = useState(false)
     const [loading,   setLoading] = useState(true)
@@ -33,7 +35,9 @@ const Advertisement = () => {
         let formData = new FormData();
         formData.append('advertisementLink', advertisementLink)
         formData.append('advertisementImage', advertisementImage)
-        Axios.post('http://localhost:8000/advertisement', formData)
+        Axios.post('http://localhost:8000/advertisement', formData, {
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {
           setSuccess(true)
           setTimeout(() => {
@@ -63,7 +67,9 @@ const Advertisement = () => {
           setAdvertisementsDeleteError('')
           setAdvertisementsDeleteSuccess(`${deleteAdvertisement.length} advertisements deleted successfully`)
           console.log(deleteAdvertisement);
-          Axios.post('http://localhost:8000/advertisement/delete', deleteAdvertisement)
+          Axios.post('http://localhost:8000/advertisement/delete', deleteAdvertisement, {
+            headers: {authorization: "Bearer " + user.token}
+          })
           .then(res => {
             setDeleteAdvertisement('')
             setSuccess(!success);
@@ -76,9 +82,10 @@ const Advertisement = () => {
         }, 3000);
       }
     useEffect(()=> {
-        Axios.get('http://localhost:8000/advertisement')
+        Axios.get('http://localhost:8000/advertisement', {
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {
-            console.log(res.data);
             setAdvertisements(res.data)
             setLoading(false)
         })

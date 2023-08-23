@@ -1,11 +1,9 @@
 import * as React from "react";
-import { ReactSession } from 'react-client-session';
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -26,6 +24,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
+import { AuthContext } from "../../context/AuthContext";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -94,9 +93,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
-  ReactSession.setStoreType("localStorage");
-  const username = ReactSession.get("username");
-
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -107,6 +103,8 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const {user} = React.useContext(AuthContext)
 
   return (
         <Box sx={{ display: "flex" }}>
@@ -247,7 +245,7 @@ export default function MiniDrawer() {
         {open && 
         <ListItem key={"welcome"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
-                <ListItemText primary={`Welcome back ${username}`} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={`Welcome back ${user.username}`} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
             }

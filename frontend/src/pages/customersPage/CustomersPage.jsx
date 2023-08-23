@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Axios from 'axios'
+import { AuthContext } from "../../context/AuthContext";
 const columns = [
   { field: 'firstName', headerName: 'First name', width: 130 },
   { field: 'lastName', headerName: 'Last name', width: 130 },
@@ -9,11 +10,14 @@ const columns = [
 
 
 export default function DataTable() {
+  const {user} = React.useContext(AuthContext)
   const [rows, setRows] = React.useState([])
   React.useEffect(()=> {
     const fetchUsers = async () => {
       try{
-        const response = await Axios.get('http://localhost:8000/customers')
+        const response = await Axios.get('http://localhost:8000/customers', {
+          headers: {authorization: "Bearer " + user.token}
+        })
         const customers = response.data
         customers.forEach((customer, key) => (
           setRows(prevCustomer => [...prevCustomer,  { id: customer._id, lastName: customer.last_name, firstName: customer.first_name, email: customer.email }])

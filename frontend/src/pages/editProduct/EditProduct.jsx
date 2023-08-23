@@ -5,8 +5,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import '../newProductPage/newProduct.css'
+import { AuthContext } from "../../context/AuthContext";
 
 const EditProduct = () => {
+    const {user} = React.useContext(AuthContext)
     const { id } = useParams()
     const [Categories, setCategories] = useState([])
     const [Brands, setBrands] = useState([])
@@ -85,7 +87,9 @@ const EditProduct = () => {
         UploadedImages.forEach((image) => {
             formData.append(`img`, image);
         });
-        Axios.put(`http://localhost:8000/products/${id}`, formData)
+        Axios.put(`http://localhost:8000/products/${id}`, formData, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(success => {
             if(success.status == 200){
                 setSuccess('Product Updated successfully')
@@ -101,7 +105,9 @@ const EditProduct = () => {
             setImagesUploadError('Select Images to delete')
         }else{
             setImagesUploadError('')
-            Axios.put(`http://localhost:8000/products/${id}/deleteImages`, {images: deleteImages})
+            Axios.put(`http://localhost:8000/products/${id}/deleteImages`, {images: deleteImages}, {
+                headers: {authorization: "Bearer " + user.token}
+            })
             .then(res => {
                 setImages(images.filter(img => !deleteImages.includes(img.filename)));
             })
@@ -111,7 +117,9 @@ const EditProduct = () => {
         }
     }
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products/${id}`)
+        Axios.get(`http://localhost:8000/products/${id}`, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {
             console.log(res.data)
             setTitle(res.data.title)
@@ -130,11 +138,15 @@ const EditProduct = () => {
             setError(err)
         })
 
-        Axios.get(`http://localhost:8000/category`)
+        Axios.get(`http://localhost:8000/category`, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
 
-        Axios.get(`http://localhost:8000/brand`)
+        Axios.get(`http://localhost:8000/brand`, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setBrands(res.data)})
         .catch(err => console.log(err))
     }, [success])

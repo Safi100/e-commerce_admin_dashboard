@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './brand_category_Selected.css'
+import { AuthContext } from "../../context/AuthContext";
 const Brand_Category_Selected = ({brandSelected, setBrandSelected, categorySelected, setCategorySelected}) => {
+    const {user} = React.useContext(AuthContext)
     const [brands, setBrands] = useState([])
     const [categories, setCategories] = useState([])
     const handleCheckedCategory = (e) => {
@@ -25,10 +27,14 @@ const Brand_Category_Selected = ({brandSelected, setBrandSelected, categorySelec
 
 
     useEffect(()=> {
-        Axios.get('http://localhost:8000/brand/getBrandWithCount/')
+        Axios.get('http://localhost:8000/brand/getBrandWithCount/', {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then((res) => setBrands(res.data))
 
-        Axios.get('http://localhost:8000/category/getCategoryWithCount/')
+        Axios.get('http://localhost:8000/category/getCategoryWithCount/', {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then((res) => setCategories(res.data))
     }, [])
     return (

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './review.css'
-import CustomerImage from '../../assets/customer.png'
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
@@ -17,7 +16,7 @@ const Review = ({review}) => {
         <div className='review'>
             <div className="review_header">
                 <div className="left">
-                    <img className='reviewer_image' src={CustomerImage} alt="Customer Image" />
+                    {/* <img className='reviewer_image' src={CustomerImage} alt="Customer Image" /> */}
                     <span className='reviewer_name'>{review.author.first_name + " " + review.author.last_name}</span>
                 </div>
                 <div className="right">

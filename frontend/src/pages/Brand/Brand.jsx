@@ -5,6 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { purple } from '@mui/material/colors';
+import { AuthContext } from "../../context/AuthContext";
 
 const columns = [
     { field: 'BrandName', headerName: 'All Brands', width: 330 },
@@ -19,12 +20,15 @@ const columns = [
   }));
 
 const Brand = () => {
+    const {user} = React.useContext(AuthContext)
     const [brands, setBrands] = useState([])
     const [brand, setBrand] = useState('')
     const [error, setError] = useState('')
     const [result, setResult] = useState(false)
     useEffect(()=> {
-        Axios.get('http://localhost:8000/brand')
+        Axios.get('http://localhost:8000/brand',{
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setBrands(res.data)})
         .catch(err => console.log(err))
     }, [result])
@@ -35,7 +39,9 @@ const Brand = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        Axios.post('http://localhost:8000/brand', {brand})
+        Axios.post('http://localhost:8000/brand', {brand}, {
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => setResult(res.data))
         .catch(err => {
             if(err.response.data.includes("duplicate key")){

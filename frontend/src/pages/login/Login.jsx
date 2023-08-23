@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactSession } from 'react-client-session';
 import Axios from 'axios'
 import './login.css'
+import { AuthContext } from '../../context/AuthContext';
+
 const Login = () => {
-    ReactSession.setStoreType("localStorage");
     const Navigate = useNavigate()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -20,29 +21,29 @@ const Login = () => {
         const text = e.target.value.trimStart()
         setPassword(text)
     }
+    const {loading, error, dispatch} = useContext(AuthContext)
+
     const handlerSubmit = (e) => {
         e.preventDefault()
+        dispatch({type: "LOGIN_START"})
         setUsernameError((username === "") ? true : false)
         setPasswordError((password === "") ? true : false)
         if(username !== "" && password !== ""){
-            const user = {username, password}
-            try{
-                Axios.post('http://localhost:8000/login', {username, password})
-                .then(res => {
-                    setWrong((res.data !== "match") ? true : false)
-                    if(res.data){
-                        ReactSession.set("username", res.data);
-                        Navigate('/')
-                    }else{
-                        setWrong("Wrong username/password")
-                    }
-                })
-            }catch(err){
-                setWrong(err)
-            }
+            Axios.post('http://localhost:8000/login', {username, password})
+            .then(res => {
+                if(res.status === 200){
+                    dispatch({type: "LOGIN_SUCCESS", payload: res.data})
+                    Navigate('/')
+                }else{
+                    throw new Error('Something went wrong ...');
+                 }
+            })
+            .catch(err => {
+                (err.response.data.message === 'Username/password wrong') ? setWrong(err.response.data.message) : console.log(err)
+                dispatch({type: "LOGIN_FAILURE", payload: err.response.data})
+            })
         }
     }
-
     return (
         <div className='body_login'>
             <div className="container">
@@ -54,8 +55,8 @@ const Login = () => {
                     <label htmlFor="password">Password</label>
                     <input value={password} onChange={HandlePasswordChange} type="password" name="password" placeholder="Enter your password"></input>
                     {PasswordError && <p className="errorMessage">Please enter a password.</p>}
-                    <button type="submit">Login</button>
-                    {wrong && <p className='errorMessage'>{wrong.message}</p>}
+                    <button disabled={loading} type="submit">Login</button>
+                    {wrong && <p className='errorMessage fs-6 mt-2'>{wrong}</p>}
                 </form>
             </div>
         </div>

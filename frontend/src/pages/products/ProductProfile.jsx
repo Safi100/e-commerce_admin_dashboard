@@ -3,15 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import  './productProfile.css'
 import NoImage from '../../assets/image-placeholder.png'
-
+import { AuthContext } from "../../context/AuthContext";
 const ProductProfile = () => {
+    const {user} = React.useContext(AuthContext)
     const [product, setProduct] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const { id } = useParams()
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products/${id}`)
+        Axios.get(`http://localhost:8000/products/${id}`, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {
             setProduct(res.data)
             setLoading(false)

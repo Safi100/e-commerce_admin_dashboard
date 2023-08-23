@@ -5,21 +5,26 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import WarehouseOutlinedIcon from '@mui/icons-material/WarehouseOutlined';
+import { AuthContext } from "../../context/AuthContext";
 
 const IndexPage = () => {
+    const {user} = React.useContext(AuthContext)
     const [CustomerCount, setCustomerCount] = useState(0)
     const [ProductCount, setProductCount] = useState(0)
     const [newCustomers, setnewCustomers] = useState([])
+    console.log(user.token);
     useEffect(()=> {
         async function fetchData(){
             try{
-                const response = await Axios.get('http://localhost:8000/')
+                const response = await Axios.get('http://localhost:8000/',{
+                    headers: {authorization: "Bearer " + user.token}
+            })
                 const result = response
-                const customerCount = result.data[0]
+                const customerCount = result.data.CustomerCount
                 setCustomerCount(customerCount)
-                const newCustomers = result.data[1]
+                const newCustomers = result.data.NewCustomers
                 setnewCustomers(newCustomers)
-                const productCount = result.data[2]
+                const productCount = result.data.productsCount
                 setProductCount(productCount)
                 console.log(result.data);
            }catch(err){

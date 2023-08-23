@@ -6,8 +6,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Review from '../../components/rating/Review';
-
+import { AuthContext } from "../../context/AuthContext";
 const Reviews = () => {
+    const {user} = React.useContext(AuthContext)
     const [orderBy, setorderBy] = useState('');
     const [filterByCategory, setFilterByCategory] = useState('')
     const [reviews, setReviews] = useState([])
@@ -19,12 +20,16 @@ const Reviews = () => {
       setFilterByCategory(event.target.value);
       };
       useEffect(()=> {
-        Axios.get(`http://localhost:8000/category`)
+        Axios.get(`http://localhost:8000/category`, {
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
       }, [])
       useEffect(()=> {
-        Axios.get(`http://localhost:8000/reviews?orderBy=${orderBy}&category=${filterByCategory}`)
+        Axios.get(`http://localhost:8000/reviews?orderBy=${orderBy}&category=${filterByCategory}`, {
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setReviews(res.data)})
         .catch(err => console.log(err))
       }, [orderBy, filterByCategory])

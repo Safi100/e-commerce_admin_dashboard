@@ -5,6 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import { purple } from '@mui/material/colors';
+import { AuthContext } from "../../context/AuthContext";
 
 const columns = [
     { field: 'CategoryName', headerName: 'All Categories', width: 330 },
@@ -19,13 +20,16 @@ const columns = [
   }));
 
 const Category = () => {
+    const {user} = React.useContext(AuthContext)
     const [categories, setCategories] = useState([])
     const [category, setCategory] = useState('')
     const [image, setImage] = useState('')
     const [error, setError] = useState('')
     const [result, setResult] = useState(false)
     useEffect(()=> {
-        Axios.get('http://localhost:8000/category')
+        Axios.get('http://localhost:8000/category',{
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
     }, [result])
@@ -42,7 +46,9 @@ const Category = () => {
         let formData = new FormData();
         formData.append('categoryName', category)
         formData.append('categoryImage', image)
-        Axios.post('http://localhost:8000/category', formData)
+        Axios.post('http://localhost:8000/category', formData, {
+          headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => setResult(res.data))
         .catch(err => {
             console.log(err);

@@ -8,7 +8,9 @@ import Select from '@mui/material/Select';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import Brand_Category_Selected from '../../components/Brand_Category_Selected/Brand_Category_Selected'
 import './products.css'
+import { AuthContext } from "../../context/AuthContext";
 const Products = () => {
+    const {user} = React.useContext(AuthContext)
     const [Products, setProducts] = useState([])
     const [orderBy, setorderBy] = useState('');
     const [brandSelected, setBrandSelected] = useState([])
@@ -19,7 +21,9 @@ const Products = () => {
         setorderBy(event.target.value);
       };
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}&title=${search}`)
+        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}&title=${search}`, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {
             setProducts(res.data)
             setLoading(false)

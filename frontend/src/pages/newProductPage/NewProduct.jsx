@@ -4,8 +4,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import './newProduct.css'
-
+import { AuthContext } from "../../context/AuthContext";
 const NewProduct = () => {
+    const {user} = React.useContext(AuthContext)
     const [Categories, setCategories] = useState([])
     const [Brands, setBrands] = useState([])
     const [title, setTitle] = useState('')
@@ -79,7 +80,9 @@ const NewProduct = () => {
         images.forEach((image) => {
             formData.append(`img`, image);
         });
-        Axios.post('http://localhost:8000/products', formData)
+        Axios.post('http://localhost:8000/products', formData, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(success => {
             if(success.status == 200){
                 setSuccess('Product added successfully')
@@ -98,11 +101,15 @@ const NewProduct = () => {
         .catch(err => console.log(err))
     }
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/category`)
+        Axios.get(`http://localhost:8000/category`, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
 
-        Axios.get(`http://localhost:8000/brand`)
+        Axios.get(`http://localhost:8000/brand`, {
+            headers: {authorization: "Bearer " + user.token}
+        })
         .then(res => {setBrands(res.data)})
         .catch(err => console.log(err))
     }, [])
