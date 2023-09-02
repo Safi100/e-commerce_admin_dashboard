@@ -18,8 +18,11 @@
     width: 100%;
     max-width: 250px;
 }
+.advertisement p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .advertisement .image_cont{
-    /* width: 40px; */
     height: 130px;
 }
 .advertisement .image_cont img{

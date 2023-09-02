@@ -14,6 +14,10 @@
 }
 .review .reviewd_date{
     color: #565959;
+    margin-bottom: 10px;
+}
+.reviewd_date span{
+    color: blue;
 }
 .review_header .left{
     display: flex;
@@ -30,6 +34,7 @@
     width: max-content;
     font-size: 14px;
     align-items: center;
+    margin-top: 10px;
 }
 .review .read_more_btn:hover .read_more{
     color: red;
@@ -53,4 +58,9 @@
     z-index: 5;
     transform:scaleY(0.8);
     box-shadow: 0px 0px 8px 10px rgba(255, 255, 255, 0.725);
+}
+.review .review_image{
+    width: 100%;
+    margin: 30px 0;
+    max-width: 400px;
 }
