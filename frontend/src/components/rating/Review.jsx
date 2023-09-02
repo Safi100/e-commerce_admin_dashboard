@@ -8,7 +8,6 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const Review = ({review}) => {
     const [open, setOpen] = useState(false)
-    const [showReadMore, setShowReadMore] = useState(false);
     const handleClick = (open) => {
         setOpen(!open)
     }
@@ -16,8 +15,7 @@ const Review = ({review}) => {
         <div className='review'>
             <div className="review_header">
                 <div className="left">
-                    {/* <img className='reviewer_image' src={CustomerImage} alt="Customer Image" /> */}
-                    <span className='reviewer_name'>{review.author.first_name + " " + review.author.last_name}</span>
+                    <h4 className="review_title">{review.title}</h4>      
                 </div>
                 <div className="right">
                     <Box
@@ -37,13 +35,16 @@ const Review = ({review}) => {
                     </Box>
                 </div>
             </div>
-            <p className='reviewd_date'>reviewd <a href={`/products/${review.product._id}`}>{review.product.title}</a> on {new Date(review.createdAt).toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'})}</p>
-            <h4 className="review_title">{review.title}</h4>
+            <span className='reviewer_name'>By {review.author.first_name + " " + review.author.last_name}</span>
+            <p className='reviewd_date'>reviewd <a href={`/products/${review.product._id}`}><span>{review.product.brand.BrandName + " " + review.product.category.CategoryName}</span></a> on {new Date(review.createdAt).toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'})}</p>
             <div className="review_body">
-                <p className={(review.body.length < 200) ? "" : (!open && "cut")} >{review.body}</p>
+                <p className={((review.body.length < 200) && !review.image.url) ? "" : (!open && "cut")} >
+                    <p>{review.body}</p>
+                    {review.image.url && <img className='review_image' src={review.image.url} alt="" /> }
+                    </p>
             </div>
             <div className="review_footer">
-                {(review.body.length < 200) ? "" : <p onClick={()=> {handleClick(open)}} 
+                {((review.body.length < 200) && !review.image.url)  ? "" : <p onClick={()=> {handleClick(open)}} 
                 className='read_more_btn'>{(open === false) ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon /> } 
                 <span className='read_more'>Read {(open === false) ? "more" : "less" }</span></p>}
             </div>
