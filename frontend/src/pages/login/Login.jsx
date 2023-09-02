@@ -6,7 +6,13 @@ import './login.css'
 import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
+    const {user} = useContext(AuthContext)
     const Navigate = useNavigate()
+
+    useEffect( ()=> {
+        if(user) Navigate('/')
+    }, [user, Navigate])
+
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [usernameError, setUsernameError] = useState(false)

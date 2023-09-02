@@ -36,7 +36,6 @@ const Reviews = () => {
     
     return (
         <div className='wrapper'>
-          {reviews.length === 0 ? <h3 className='text-danger'>No reviews yet</h3> : <>
             <FormControl sx={{ mb: 2, minWidth: 100 }}>
                 <InputLabel id="demo-simple-select-autowidth-label">Sort by</InputLabel>
                 <Select
@@ -62,7 +61,7 @@ const Reviews = () => {
                   onChange={handleFilterByCategoryChange}
                   autoWidth
                   label=">Filter by category"
-                >
+                  >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
@@ -71,13 +70,12 @@ const Reviews = () => {
                     ))}
                 </Select>
             </FormControl>
+            {reviews.length === 0 && <h3 className='text-danger'>No reviews yet</h3>}
             <div className="reviews_container">
                 {reviews.map((review) => (
                   <Review review={review} key={review._id}/>
                   ))}
             </div>
-            {console.log(reviews)}
-          </>}
         </div>
     );
 }
