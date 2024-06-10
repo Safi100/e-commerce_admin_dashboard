@@ -20,16 +20,12 @@ const Reviews = () => {
       setFilterByCategory(event.target.value);
       };
       useEffect(()=> {
-        Axios.get(`http://localhost:8000/category`, {
-          headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/category`)
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
       }, [])
       useEffect(()=> {
-        Axios.get(`http://localhost:8000/reviews?orderBy=${orderBy}&category=${filterByCategory}`, {
-          headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/reviews?orderBy=${orderBy}&category=${filterByCategory}`)
         .then(res => {setReviews(res.data)})
         .catch(err => console.log(err))
       }, [orderBy, filterByCategory])
