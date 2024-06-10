@@ -25,27 +25,29 @@ const app = express()
 
 app.use(express.json())
 app.use(morgan('dev'))
-app.use(cors())
+app.use(cors({
+    origin: [process.env.BASE_URL],
+    credentials: true
+}));
 app.use(cookieParser())
 app.use(express.static('uploads'))
 
-mongoose.connect('mongodb://localhost:27017/Ecommerce', {
+mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     family: 4,
 })
 .then(()=> console.log("db connected"))
 .catch((err)=> console.log(err))
-app.get('/', authenticateJWT,getIndexData)
-app.get('/customers', authenticateJWT, getCustomers)
 
-app.use('/login', authRoute)
+app.get('/', authenticateJWT, getIndexData)
+app.get('/customers', authenticateJWT, getCustomers)
+app.use('/auth', authRoute)
 app.use('/products', authenticateJWT, productRoute)
 app.use('/reviews', authenticateJWT, ReviewRoute)
 app.use('/category', authenticateJWT, categoryRoute)
 app.use('/brand', authenticateJWT, brandRoute)
 app.use('/advertisement', authenticateJWT, advertisementRoute)
-
 app.get('/logout', logout)
 
 app.listen(8000, ()=> {
