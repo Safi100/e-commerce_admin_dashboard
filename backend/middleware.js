@@ -1,20 +1,12 @@
 const jwt = require('jsonwebtoken')
 
 module.exports.authenticateJWT = (req, res, next) => {
-    const AuthHeader = req.headers.authorization
-    console.log(req.headers);
     const secret_key = process.env.SECRET_KEY
-    if(AuthHeader){
-        const token = AuthHeader.split(" ")[1]
-        jwt.verify(token, secret_key, (err, user) => {
-            if (err) {
-                return res.status(403).json({ error: 'Token is not valid!' });
-            }
-            req.user = user;
-            next();
-        });
-    }else{
-        return res.status(401).json({ error: 'Unauthorized' });
-    }
-
+    const token = req.headers.authorization || req.cookies.access_token;
+    if (!token) return res.status(401).send('You must log in to access this');
+    jwt.verify(token, secret_key, (err, user) => {
+        if (err) return res.status(403).json({ error: 'Token is not valid!' });
+        req.user = user;
+        next();
+    });
 }
