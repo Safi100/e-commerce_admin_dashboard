@@ -1,9 +1,10 @@
 const express = require('express')
-const { renderLogin, login} = require('../controllers/auth')
+const { login, fetchCurrentUser } = require('../controllers/auth')
 const router = express.Router({mergeParams: true})
+const { authenticateJWT } = require('../middleware')
 
-router.route('/')
-.post(login)
+router.post('/login', login)
 
+router.get('/currentUser', authenticateJWT, fetchCurrentUser)
 
 module.exports = router

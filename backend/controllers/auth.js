@@ -7,7 +7,7 @@ module.exports.login = async (req, res) => {
         const email = req.body.email.toLowerCase().trim()
         const password = req.body.password.trim()
 
-        const admin = await Admin.findOne(email)
+        const admin = await Admin.findOne({email})
         if(!admin) throw new Error('Email or password incorrect')
         const match = await bcrypt.compare(password, admin.password)
         if(!match) throw new Error('Email or password incorrect')
@@ -18,7 +18,17 @@ module.exports.login = async (req, res) => {
         res.cookie('c_user', admin._id.toString());
         res.cookie('accessToken', token, { httpOnly: true }).status(200).json({token});
     }catch (e) {
+        console.log(e);
         return res.status(401).json({error: e.message});
+    }
+}
+module.exports.fetchCurrentUser = async (req, res) => {
+    try{
+        const currentUser = await Admin.findById(req.user.id).select(['-password'])
+        res.status(200).json(currentUser)
+    }catch(e){
+        res.status(404).json({error: e.message})
+        console.log(e);
     }
 }
 module.exports.logout = async (req, res) => {
