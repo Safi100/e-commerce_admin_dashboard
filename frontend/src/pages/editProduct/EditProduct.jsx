@@ -87,9 +87,7 @@ const EditProduct = () => {
         UploadedImages.forEach((image) => {
             formData.append(`img`, image);
         });
-        Axios.put(`http://localhost:8000/products/${id}`, formData, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.put(`http://localhost:8000/products/${id}`, formData)
         .then(success => {
             if(success.status == 200){
                 setSuccess('Product Updated successfully')

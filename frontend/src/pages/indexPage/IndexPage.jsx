@@ -12,13 +12,10 @@ const IndexPage = () => {
     const [CustomerCount, setCustomerCount] = useState(0)
     const [ProductCount, setProductCount] = useState(0)
     const [newCustomers, setnewCustomers] = useState([])
-    console.log(user.token);
     useEffect(()=> {
         async function fetchData(){
             try{
-                const response = await Axios.get('http://localhost:8000/',{
-                    headers: {authorization: "Bearer " + user.token}
-            })
+                const response = await Axios.get('http://localhost:8000/')
                 const result = response
                 const customerCount = result.data.CustomerCount
                 setCustomerCount(customerCount)

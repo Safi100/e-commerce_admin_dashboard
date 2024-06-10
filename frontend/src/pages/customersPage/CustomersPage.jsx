@@ -15,9 +15,7 @@ export default function DataTable() {
   React.useEffect(()=> {
     const fetchUsers = async () => {
       try{
-        const response = await Axios.get('http://localhost:8000/customers', {
-          headers: {authorization: "Bearer " + user.token}
-        })
+        const response = await Axios.get('http://localhost:8000/customers')
         const customers = response.data
         customers.forEach((customer, key) => (
           setRows(prevCustomer => [...prevCustomer,  { id: customer._id, lastName: customer.last_name, firstName: customer.first_name, email: customer.email }])

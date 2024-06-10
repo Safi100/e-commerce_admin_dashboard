@@ -10,7 +10,6 @@ import Brand_Category_Selected from '../../components/Brand_Category_Selected/Br
 import './products.css'
 import { AuthContext } from "../../context/AuthContext";
 const Products = () => {
-    const {user} = React.useContext(AuthContext)
     const [Products, setProducts] = useState([])
     const [orderBy, setorderBy] = useState('');
     const [brandSelected, setBrandSelected] = useState([])
@@ -19,11 +18,9 @@ const Products = () => {
     const [loading, setLoading] = useState(true)
     const handleOrderByChange = (event) => {
         setorderBy(event.target.value);
-      };
+    };
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}&title=${search}`, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/products?orderBy=${orderBy}&category=${categorySelected}&brand=${brandSelected}&title=${search}`)
         .then(res => {
             setProducts(res.data)
             setLoading(false)

@@ -39,9 +39,7 @@ const Brand = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        Axios.post('http://localhost:8000/brand', {brand}, {
-          headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.post('http://localhost:8000/brand', {brand})
         .then(res => setResult(res.data))
         .catch(err => {
             if(err.response.data.includes("duplicate key")){

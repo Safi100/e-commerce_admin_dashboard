@@ -39,7 +39,7 @@ export function AuthContextProvider({ children }) {
     })
   }
   const logout = () => {
-    axios.post('http://localhost:8000/user/logout')
+    axios.post('http://localhost:8000/auth/logout')
     .then(() => setCurrentUser(null))
     .catch((err) => console.log(err))
   }

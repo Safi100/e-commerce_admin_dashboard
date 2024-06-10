@@ -12,9 +12,7 @@ const ProductProfile = () => {
     const [error, setError] = useState('')
     const { id } = useParams()
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products/${id}`, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/products/${id}`)
         .then(res => {
             setProduct(res.data)
             setLoading(false)

@@ -27,9 +27,7 @@ const Category = () => {
     const [error, setError] = useState('')
     const [result, setResult] = useState(false)
     useEffect(()=> {
-        Axios.get('http://localhost:8000/category',{
-          headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get('http://localhost:8000/category')
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
     }, [result])

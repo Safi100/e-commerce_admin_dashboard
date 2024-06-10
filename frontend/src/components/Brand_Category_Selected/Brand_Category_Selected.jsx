@@ -27,14 +27,10 @@ const Brand_Category_Selected = ({brandSelected, setBrandSelected, categorySelec
 
 
     useEffect(()=> {
-        Axios.get('http://localhost:8000/brand/getBrandWithCount/', {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get('http://localhost:8000/brand/getBrandWithCount/')
         .then((res) => setBrands(res.data))
 
-        Axios.get('http://localhost:8000/category/getCategoryWithCount/', {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get('http://localhost:8000/category/getCategoryWithCount/')
         .then((res) => setCategories(res.data))
     }, [])
     return (

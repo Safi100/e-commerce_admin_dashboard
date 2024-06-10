@@ -35,9 +35,7 @@ const Advertisement = () => {
         let formData = new FormData();
         formData.append('advertisementLink', advertisementLink)
         formData.append('advertisementImage', advertisementImage)
-        Axios.post('http://localhost:8000/advertisement', formData, {
-          headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.post('http://localhost:8000/advertisement', formData)
         .then(res => {
           setSuccess(true)
           setTimeout(() => {

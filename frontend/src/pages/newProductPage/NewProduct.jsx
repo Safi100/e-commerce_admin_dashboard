@@ -80,9 +80,7 @@ const NewProduct = () => {
         images.forEach((image) => {
             formData.append(`img`, image);
         });
-        Axios.post('http://localhost:8000/products', formData, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.post('http://localhost:8000/products', formData)
         .then(success => {
             if(success.status == 200){
                 setSuccess('Product added successfully')
@@ -101,15 +99,11 @@ const NewProduct = () => {
         .catch(err => console.log(err))
     }
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/category`, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/category`)
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
 
-        Axios.get(`http://localhost:8000/brand`, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/brand`)
         .then(res => {setBrands(res.data)})
         .catch(err => console.log(err))
     }, [])
