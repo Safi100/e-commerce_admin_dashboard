@@ -1,32 +1,25 @@
 import * as React from "react";
+import { useNavigate } from 'react-router-dom'
+import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
-import SentimentDissatisfiedOutlinedIcon from '@mui/icons-material/SentimentDissatisfiedOutlined';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import ExtensionOutlinedIcon from '@mui/icons-material/ExtensionOutlined';
-import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import RateReviewOutlinedIcon from "@mui/icons-material/RateReviewOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import ExtensionOutlinedIcon from "@mui/icons-material/ExtensionOutlined";
+import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
 import { AuthContext } from "../../context/AuthContext";
 
 const drawerWidth = 240;
+
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -53,7 +46,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar
 }));
 
@@ -94,8 +86,9 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme();
+  const Navigate = useNavigate()
+  
   const [open, setOpen] = React.useState(false);
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -104,34 +97,27 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const {user} = React.useContext(AuthContext)
+  const {currentUser, logout} = React.useContext(AuthContext)
+
+  const handleLogOut = (e) => {
+    logout()
+    Navigate('/login')
+  }
 
   return (
-        <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          {!open && 
-          <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-            marginRight: 0,
-          }}
-            >
+          {!open &&
+          <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" sx={{marginRight: 0,}}>
             <MenuIcon />
           </IconButton>
-            }
+          }
           {open &&
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            { theme.direction === "rtl" ? (<ChevronRightIcon />) : (<ChevronLeftIcon />) }
           </IconButton>
-        }
+          }
         </DrawerHeader>
         <Divider />
         <List>
@@ -148,7 +134,7 @@ export default function MiniDrawer() {
         </List>
         <Divider />
         <List>
-            <a href="/customers">
+          <a href="/customers">
             <ListItem key={"customers"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -157,8 +143,8 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Customers"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            </a>
-            <a href="/products">
+          </a>
+          <a href="/products">
             <ListItem key={"PRODUCTS"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -167,8 +153,8 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Products"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            </a>
-            <a href="/orders">
+          </a>
+          <a href="/orders">
             <ListItem key={"Orders"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -177,8 +163,8 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Orders"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            </a>
-            <a href="/advertisement">
+          </a>
+          <a href="/advertisement">
             <ListItem key={"Advertisement"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -187,12 +173,12 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Advertisement"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            </a>
+          </a>
         </List>
         <Divider />
         <List>
           <a href="/reviews">
-          <ListItem key={"all_mail"} disablePadding sx={{ display: "block" }}>
+            <ListItem key={"all_mail"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
                   <RateReviewOutlinedIcon />
@@ -201,26 +187,10 @@ export default function MiniDrawer() {
               </ListItemButton>
             </ListItem>
           </a>
-            <ListItem key={"message"} disablePadding sx={{ display: "block" }}>
-              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
-                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                  <ChatBubbleOutlineOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Messages"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key={"Compaint"} disablePadding sx={{ display: "block" }}>
-              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
-                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                  <SentimentDissatisfiedOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Compaint"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
         </List>
         <Divider />
         <List>
-        <a href="/category">
+          <a href="/category">
             <ListItem key={"Category"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -229,8 +199,8 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Category"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            </a>
-            <a href="/brand">
+          </a>
+          <a href="/brand">
             <ListItem key={"Brand"} disablePadding sx={{ display: "block" }}>
               <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
                 <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
@@ -239,24 +209,32 @@ export default function MiniDrawer() {
                 <ListItemText primary={"Brand"} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
-            </a>
+          </a>
         </List>
         <List>
         {open && 
-        <ListItem key={"welcome"} disablePadding sx={{ display: "block" }}>
-              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
-                <ListItemText primary={`Welcome back ${user.username}`} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            }
-            <ListItem key={"logout"} disablePadding sx={{ display: "block" }}>
-              <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
-                <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
-                  <LogoutOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
+          <ListItem key={"welcome"} disablePadding sx={{ display: "block" }}>
+            <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
+              <ListItemText 
+                primary={
+                  <React.Fragment>
+                    <Typography variant="body1">Welcome back</Typography>
+                    <Typography variant="body2">{currentUser.email}</Typography>
+                  </React.Fragment>
+                } 
+                sx={{ opacity: open ? 1 : 0 }} 
+              />
+            </ListItemButton>
+          </ListItem>
+          }
+          <ListItem onClick={handleLogOut} key={"logout"} disablePadding sx={{ display: "block" }}>
+            <ListItemButton sx={{ minHeight: 48, justifyContent: open ? "initial" : "center", px: 2.5 }} >
+              <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : "auto", justifyContent: "center" }}>
+                <LogoutOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Logout"} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
     </Box>
