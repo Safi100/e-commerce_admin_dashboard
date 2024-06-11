@@ -65,9 +65,7 @@ const Advertisement = () => {
           setAdvertisementsDeleteError('')
           setAdvertisementsDeleteSuccess(`${deleteAdvertisement.length} advertisements deleted successfully`)
           console.log(deleteAdvertisement);
-          Axios.post('http://localhost:8000/advertisement/delete', deleteAdvertisement, {
-            headers: {authorization: "Bearer " + user.token}
-          })
+          Axios.post('http://localhost:8000/advertisement/delete', deleteAdvertisement)
           .then(res => {
             setDeleteAdvertisement('')
             setSuccess(!success);
@@ -80,9 +78,7 @@ const Advertisement = () => {
         }, 3000);
       }
     useEffect(()=> {
-        Axios.get('http://localhost:8000/advertisement', {
-          headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get('http://localhost:8000/advertisement')
         .then(res => {
             setAdvertisements(res.data)
             setLoading(false)
