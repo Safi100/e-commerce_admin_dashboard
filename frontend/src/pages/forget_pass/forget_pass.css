@@ -1,0 +1,48 @@
+.bg_container{
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+.bg_container form{
+    width: 90%;
+    max-width: 350px;
+    background: #fff;
+    padding: 35px 20px;
+}
+.bg_container .input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+.bg_container .input input{
+    outline: none;
+    height: 40px;
+    padding: 0 20px;
+}
+.bg_container .input input:focus, .input input:valid{
+    border: 1px solid #4CAF50;
+}
+.bg_container .bg_container .input label{
+    font-weight: bold;
+}
+.bg_container a{
+    color: blue;
+}
+.bg_container .Btn{
+    margin-top: 15px;
+    background: #4CAF50;
+    color: #fff;
+    border: 0;
+    padding: 15px;
+    width: 100%;
+    cursor: pointer;
+}
+.bg_container .Btn:hover{
+    opacity: 0.7;
+}
