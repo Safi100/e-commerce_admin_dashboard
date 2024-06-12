@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import Axios from 'axios'
 import './login.css'
 
 const Login = () => {
@@ -20,10 +19,9 @@ const Login = () => {
         setPassword(text)
     }
 
-    const handlerSubmit = (e) => {
+    const handlerSubmit = async (e) => {
         e.preventDefault()
-        authContext.login(email, password)
-        if(authContext.success){
+        if(await authContext.login(email, password) === 200){
             Navigate('/')
         }
     }
@@ -37,6 +35,7 @@ const Login = () => {
                     <input value={email} onChange={HandleEmailChange} type="text" name="email" placeholder="Enter your email" required></input>
                     <label htmlFor="password">Password</label>
                     <input value={password} onChange={HandlePasswordChange} type="password" name="password" placeholder="Enter your password" required></input>
+                    <a className='text-primary' href="/forget-password">Forget password</a>
                     <button type="submit">Login</button>
                     {authContext.error && <p className='errorMessage fs-6 mt-2'>{authContext.error}</p>}
                 </form>
