@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const PasswordToken = require('../models/passwordToken');
 const crypto = require('crypto');
+const {sendEmail} = require('../utils/mail');
 
 module.exports.login = async (req, res) => {
     try{
@@ -32,7 +33,7 @@ module.exports.send_reset_mail = async (req, res) => {
         if(!admin) throw new Error('Email not found on system');
         const passwordToken = await PasswordToken.findOne({CustomerId: admin._id});
         // if passwordToken exist delete it and generate new one
-        if(passwordToken) await passwordToken.deleteOne({CustomerId: customer._id});
+        if(passwordToken) await passwordToken.deleteOne({CustomerId: admin._id});
         const NewPasswordToken = crypto.randomBytes(32).toString("hex");
         // hash the new password token to secure it on database
         const hashedToken = await bcrypt.hash(NewPasswordToken, 10);
@@ -70,7 +71,7 @@ module.exports.reset_password = async (req, res) => {
         if (password !== confirmPassword) throw new Error(`Password and confirm password must match.`);
         const hashedPass = await bcrypt.hash(password, 10);
         const updatedAdmin = await Admin.findByIdAndUpdate({_id: id}, {password: hashedPass})
-        if(!updatedUser) throw new Error(`Password didn't update.`);
+        if(!updatedAdmin) throw new Error(`Password didn't update.`);
         await PasswordToken.deleteOne({ CustomerId: id });
         res.send({message: 'Password changed successfully'});
     }catch(e){
