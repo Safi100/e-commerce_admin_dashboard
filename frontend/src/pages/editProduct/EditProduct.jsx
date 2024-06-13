@@ -103,9 +103,7 @@ const EditProduct = () => {
             setImagesUploadError('Select Images to delete')
         }else{
             setImagesUploadError('')
-            Axios.put(`http://localhost:8000/products/${id}/deleteImages`, {images: deleteImages}, {
-                headers: {authorization: "Bearer " + user.token}
-            })
+            Axios.put(`http://localhost:8000/products/${id}/deleteImages`, {images: deleteImages})
             .then(res => {
                 setImages(images.filter(img => !deleteImages.includes(img.filename)));
             })
@@ -115,9 +113,7 @@ const EditProduct = () => {
         }
     }
     useEffect(()=> {
-        Axios.get(`http://localhost:8000/products/${id}`, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/products/${id}`)
         .then(res => {
             console.log(res.data)
             setTitle(res.data.title)
@@ -136,15 +132,11 @@ const EditProduct = () => {
             setError(err)
         })
 
-        Axios.get(`http://localhost:8000/category`, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/category`)
         .then(res => {setCategories(res.data)})
         .catch(err => console.log(err))
 
-        Axios.get(`http://localhost:8000/brand`, {
-            headers: {authorization: "Bearer " + user.token}
-        })
+        Axios.get(`http://localhost:8000/brand`)
         .then(res => {setBrands(res.data)})
         .catch(err => console.log(err))
     }, [success])
