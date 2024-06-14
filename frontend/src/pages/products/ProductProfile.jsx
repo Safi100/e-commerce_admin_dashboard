@@ -2,10 +2,11 @@ import  Axios  from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import  './productProfile.css'
+import Rating from '@mui/material/Rating';
 import NoImage from '../../assets/image-placeholder.png'
-import { AuthContext } from "../../context/AuthContext";
+import Review from '../../components/rating/Review'
+
 const ProductProfile = () => {
-    const {user} = React.useContext(AuthContext)
     const [product, setProduct] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [loading, setLoading] = useState(true)
@@ -28,8 +29,7 @@ const ProductProfile = () => {
         {(loading && !error) && <h2 className='m-3'>Loading...</h2>}
         {!loading && <>
         <div className='productProfile_container'>
-        <div className="product_container">
-                {console.log(product)}
+            <div className="product_container">
                 <div className="thumbnails">
                     <div className="group__photo">
                         {product.images?.map((image, index) => (
@@ -46,7 +46,10 @@ const ProductProfile = () => {
                 </div>
                 <div className="product_info">
                     <h2 className='product_title'>{product.title}</h2>
-                    <p>stars, {product.reviews.length}</p>
+                    <p className='rating'>
+                        <span className='d-flex'>{product.average_rating} <Rating name="read-only" value={product.average_rating ?? ""} precision={0.1} readOnly /></span>
+                        <span>{product.reviews?.length} ratings</span>
+                    </p>
                     <p className='price mt-2'>
                         <span className='fs-2'><sup className='sign fs-4'>$</sup>{product.priceToPay}</span>
                         {(product.price !== product.priceToPay ) ? <span className='priceBefore text-secondary'>${product.price}</span> : ""}
@@ -65,13 +68,25 @@ const ProductProfile = () => {
             </div>
             <div className='mt-4'>
                 <h3 className='mb-3'>Product description</h3>
-                <div className='product_description' >
+                <div className='product_description mb-5'>
                 {product.description.split(/\r\n|\n/).map((line, index) => (
-                   <div className='d-flex mb-2'>
-                    <li className='dot_list' key={index}></li>
-                    <>{line}</>
+                    <div className='d-flex mb-2' key={index}>
+                        <li className='dot_list'></li>
+                        <>{line}</>
                     </div>
                 ))}
+                </div>
+                <div>
+                    {product.reviews.length == 0 ? 
+                    <h2 className='text-danger'>There's no reviews yet...</h2> 
+                    :
+                    <h3 className='mb-3'>Reviews ({product.reviews.length})</h3>
+                    }
+                    <div className='reviews'>
+                        {product.reviews.map(review => (
+                            <Review key={review._id} review={review} isProductProfile={true} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
