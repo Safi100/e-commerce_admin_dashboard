@@ -94,7 +94,6 @@ module.exports.updateProduct = async (req, res) => {
         const imgs = req.files.map(file => ({url: file.path, filename: file.filename}))
         UpdatedProduct.images.push(...imgs)
         
-        console.log(UpdatedProduct);
         if(UpdatedProduct.images.length > 4){
             return res.status(409).json("You can't have more than 4 images")
         }
@@ -107,10 +106,18 @@ module.exports.updateProduct = async (req, res) => {
 }
 module.exports.productProfie = async (req, res) => {
     const id = req.params.id
-    const product = await Product.findById(id).populate('reviews').populate('category').populate('brand')
+    let product = await Product.findById(id).populate({path:'reviews', populate: {path: 'author', select: ['first_name', 'last_name']}}).populate('category').populate('brand')
     if(!product){
         return res.status(404).json("Product not found")
     }
+    // get average rating of this product
+    let rating = 0;
+    product.reviews.forEach(review => {
+        rating += review.rating
+    })
+    const avgerage_rating = rating / product.reviews.length;
+    product = product.toObject();
+    product.average_rating = avgerage_rating;
     res.json(product)
 }
 module.exports.deleteImages =  async (req, res) => {
@@ -119,7 +126,6 @@ module.exports.deleteImages =  async (req, res) => {
         const product = await Product.findByIdAndUpdate(id)
         if(req.body.images){
             for(let filename of req.body.images){
-                console.log(filename);
                 await cloudinary.uploader.destroy(filename)
             }
             await product.updateOne({$pull: {images: { filename: { $in : req.body.images } } } } )
