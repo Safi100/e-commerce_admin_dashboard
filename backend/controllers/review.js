@@ -4,17 +4,17 @@ module.exports.GetReviews = async (req, res) => {
     const {orderBy, category} = req.query
     switch (orderBy) {
         case "newest":
-            review = await Review.find().populate('author').populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]}).sort({createdAt: -1})
+            review = await Review.find().populate({path: 'author', select: ['first_name', 'last_name']}).populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]}).sort({createdAt: -1})
         break;
         case "top":
-            review = await Review.find().populate('author').populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]}).sort({rating: -1})
+            review = await Review.find().populate({path: 'author', select: ['first_name', 'last_name']}).populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]}).sort({rating: -1})
         break;
         case "lowest":
-            review = await Review.find().populate('author').populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]}).sort({rating: 1})
+            review = await Review.find().populate({path: 'author', select: ['first_name', 'last_name']}).populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]}).sort({rating: 1})
         break;
     
         default:
-            review = await Review.find().populate('author').populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]})
+            review = await Review.find().populate({path: 'author', select: ['first_name', 'last_name']}).populate({path: 'product', populate: [{ path: 'category' },{ path: 'brand' }]})
             break;
         }
         if(category !==""){
