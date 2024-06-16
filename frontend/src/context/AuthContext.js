@@ -8,30 +8,33 @@ export function AuthContextProvider({ children }) {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
+  const [Loading_currentUser, setLoading_currentUser] = useState(true)
 
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
-  
-  const fetchCurrentUser = () => {
-    if (!Cookies.get('c_user')) return;
-    axios.get('http://localhost:8000/auth/currentUser')
+  const fetchCurrentUser = async () => {
+    if (!Cookies.get('c_user')) {
+      setLoading_currentUser(false)
+      return 401;
+    }
+    return axios.get('http://localhost:8000/auth/currentUser')
       .then((res) => {
         setCurrentUser(res.data)
+        setLoading_currentUser(false)
+        return res.status;
       })
       .catch((e) => {
-        console.log(e)
+        setLoading_currentUser(false)
+        return 500;
       });
   }
 
-  const login = (email, password) => {
+  const login = async (email, password) => {
     setError('')
     setSuccess(false);
-    axios.post('http://localhost:8000/auth/login', { email, password })
+    return axios.post('http://localhost:8000/auth/login', { email, password })
     .then((res) => {
       fetchCurrentUser()
       setSuccess(true)
-      setCurrentUser(res.data)
+      return res.status;
     })
     .catch((err) => {
       setError(err.response.data.error)
@@ -45,7 +48,7 @@ export function AuthContextProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ login, logout, error, currentUser, success }}>
+    <AuthContext.Provider value={{ login, logout, error, currentUser, success, Loading_currentUser, fetchCurrentUser }}>
       {children}
     </AuthContext.Provider>
   );
