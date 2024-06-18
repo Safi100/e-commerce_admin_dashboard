@@ -15,6 +15,7 @@ const ReviewRoute = require('./routes/review')
 const categoryRoute = require('./routes/category')
 const brandRoute = require('./routes/brand')
 const advertisementRoute = require('./routes/advertisement')
+const orderRoute = require('./routes/order')
 
 const { logout } = require('./controllers/auth')
 const { authenticateJWT } = require('./middleware');
@@ -48,6 +49,7 @@ app.use('/reviews', authenticateJWT, ReviewRoute)
 app.use('/category', authenticateJWT, categoryRoute)
 app.use('/brand', authenticateJWT, brandRoute)
 app.use('/advertisement', authenticateJWT, advertisementRoute)
+app.use('/orders', authenticateJWT, orderRoute)
 app.get('/logout', logout)
 
 app.listen(8000, ()=> {
