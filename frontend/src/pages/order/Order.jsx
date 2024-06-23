@@ -91,6 +91,10 @@ const Order = () => {
                                     <p className='m-0'>{order.address.phone_number}</p>
                                 </div>}
                             </div>
+                            <div className='d-flex flex-column'>
+                                <span>ORDER BY</span>
+                                <a className='text-primary' href={`/customer/${order.customer._id}`}>{order.customer.first_name} {order.customer.last_name}</a>
+                            </div>
                         </div>
                         <div className='order_items card-body'>
                             {order.items.map(item => (
