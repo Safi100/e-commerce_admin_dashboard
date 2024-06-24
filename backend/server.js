@@ -16,6 +16,7 @@ const categoryRoute = require('./routes/category')
 const brandRoute = require('./routes/brand')
 const advertisementRoute = require('./routes/advertisement')
 const orderRoute = require('./routes/order')
+const customerRoute = require('./routes/customers')
 
 const { logout } = require('./controllers/auth')
 const { authenticateJWT } = require('./middleware');
@@ -42,7 +43,7 @@ mongoose.connect(process.env.DATABASE, {
 .catch((err)=> console.log(err))
 
 app.get('/', authenticateJWT, getIndexData)
-app.get('/customers', authenticateJWT, getCustomers)
+app.use('/customers', authenticateJWT, customerRoute)
 app.use('/auth', authRoute)
 app.use('/products', authenticateJWT, productRoute)
 app.use('/reviews', authenticateJWT, ReviewRoute)
