@@ -15,6 +15,7 @@ import Advertisement from './pages/advertisement/Advertisement';
 import ForgetPass from './pages/forget_pass/Forget_pass';
 import ResetPassword from './pages/resetPassword/ResetPassword';
 import Orders from './pages/order/Order';
+import CustomerProfile from './pages/customerProfile/CustomerProfile';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
@@ -65,6 +66,7 @@ const App = () => {
             <Route path='/category' element={<Category />} />
             <Route path='/advertisement' element={<Advertisement />} />
             <Route path='/products/new' element={<NewProduct />} />
+            <Route path='/customer/:id' element={<CustomerProfile />} />
             <Route path='/products/:id' element={<ProductProfile />} />
             <Route path='/products/:id/edit' element={<EditProduct />} />
             <Route path='/reset-password/:UserID/:token' element={<ResetPassword/>} />
