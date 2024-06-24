@@ -6,7 +6,7 @@ import StarIcon from '@mui/icons-material/Star';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-const Review = ({review, isProductProfile}) => {
+const Review = ({review, isProductProfile, isCustomerProfile}) => {
     const [open, setOpen] = useState(false)
     const handleClick = (open) => {
         setOpen(!open)
@@ -35,7 +35,7 @@ const Review = ({review, isProductProfile}) => {
                     </Box>
                 </div>
             </div>
-            <span className='reviewer_name'>By {review.author.first_name + " " + review.author.last_name}</span>
+            {!isCustomerProfile && <span className='reviewer_name'>By {review.author.first_name + " " + review.author.last_name}</span>}
             <p className='reviewd_date'>reviewd { !isProductProfile && <a href={`/products/${review.product._id}`}><span>{review.product?.brand.BrandName + " " + review.product.category.CategoryName}</span></a>} on {new Date(review.createdAt).toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'})}</p>
             <div className="review_body">
                 <p className={((review.body.length < 200) && !review.image.url) ? "" : (!open && "cut")} >
