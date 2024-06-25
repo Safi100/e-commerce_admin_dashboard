@@ -4,15 +4,20 @@ const mongoose = require("mongoose");
 
 module.exports.getCustomers = async (req, res) => {
     try{
-        const customers = await Customer.find()
-        res.json(customers)
+        let customers = await Customer.find()
+        for (let i = 0; i < customers.length; i++) {
+            const orderCount = await Order.countDocuments({ customer: customers[i]._id });
+            customers[i] = customers[i].toObject();
+            customers[i].orderCount = orderCount;
+        }
+        res.json(customers);
     }catch(e){
+        console.log(e);
         res.status(500).send(e)
     }
 }
 module.exports.customerProfile = async (req, res) => {
     try{
-        console.log(req.params.id);
         if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw new Error("Invalid id");
         const customer = await Customer.findById(req.params.id).select(['-password'])
         .populate({path: 'reviews', populate: {path: 'product', populate: ['brand', 'category']}})
@@ -28,7 +33,7 @@ module.exports.customerProfile = async (req, res) => {
             order.totalPrice = totalPrice;
             return order;
         });
-                res.json({customer, orders});
+        res.json({customer, orders});
     }catch(e){
         console.log(e);
         res.status(500).send({message: e.message})
