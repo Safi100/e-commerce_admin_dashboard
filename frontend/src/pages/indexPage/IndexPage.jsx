@@ -150,7 +150,7 @@ const IndexPage = () => {
                         <tbody>
                             {newCustomers.map(customer => (
                                 <tr key={customer._id}>
-                                    <td>{customer.first_name} {customer.last_name}</td>
+                                    <td><a className='text-primary' href={`/customer/${customer._id}`}>{customer.first_name} {customer.last_name}</a></td>
                                     <td>{customer.email}</td>
                                     <td>{new Date(customer.createdAt).toLocaleDateString('en-US',{year: 'numeric', month: 'long', day: 'numeric'})}</td>
                                 </tr>
