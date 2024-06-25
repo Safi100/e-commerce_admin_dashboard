@@ -34,9 +34,9 @@ module.exports.send_reset_mail = async (req, res) => {
         const passwordToken = await PasswordToken.findOne({CustomerId: admin._id});
         // if passwordToken exist delete it and generate new one
         if(passwordToken) await passwordToken.deleteOne({CustomerId: admin._id});
-        const NewPasswordToken = crypto.randomBytes(32).toString("hex");
+        const randomToken = crypto.randomBytes(32).toString("hex");
         // hash the new password token to secure it on database
-        const hashedToken = await bcrypt.hash(NewPasswordToken, 10);
+        const hashedToken = await bcrypt.hash(randomToken, 10);
         const newPasswordToken = new PasswordToken({
             CustomerId: admin._id,
             token: hashedToken
@@ -45,7 +45,7 @@ module.exports.send_reset_mail = async (req, res) => {
         // Send email to customer
         await sendEmail(admin.email, "Reset your password", `<p>Hi ${admin.email}</p>
         <p>Please click on the link below to reset your password</p>
-        <a href="http://localhost:3000/reset-password/${admin._id}/${newPasswordToken.token}">Reset Password</a>
+        <a href="http://localhost:3000/reset-password/${admin._id}/${randomToken}">Reset Password</a>
         <p>Link will expire in 1 hour.</p>
         <p>If you didn't request a password reset, please ignore this email, and your password will remain unchanged.</p>
         `)
@@ -66,7 +66,7 @@ module.exports.reset_password = async (req, res) => {
         if(!admin) throw new Error('Customer not found');
         const passwordResetToken = await PasswordToken.findOne({CustomerId: admin._id});
         if (!passwordResetToken) throw new Error(`Invalid link`);
-        const match = (token === passwordResetToken.token);
+        const match = await bcrypt.compare(token, passwordResetToken.token);
         if(!match) throw new Error(`Invalid link`);
         if (password !== confirmPassword) throw new Error(`Password and confirm password must match.`);
         const hashedPass = await bcrypt.hash(password, 10);
