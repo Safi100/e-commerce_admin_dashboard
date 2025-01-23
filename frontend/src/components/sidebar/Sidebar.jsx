@@ -219,7 +219,7 @@ export default function MiniDrawer() {
                 primary={
                   <React.Fragment>
                     <Typography variant="body1">Welcome back</Typography>
-                    <Typography variant="body2">{currentUser.email}</Typography>
+                    <Typography variant="body2">{currentUser?.email}</Typography>
                   </React.Fragment>
                 } 
                 sx={{ opacity: open ? 1 : 0 }} 
