@@ -27,7 +27,7 @@ const App = () => {
     const auth = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const locations = ['/login', '/forget-password', '/reset-password/']
+    const locations = ['/login', '/forget-password', '/reset-password']
     const CurrentUser = async () => {
         const status = await auth.fetchCurrentUser();
 
@@ -52,9 +52,10 @@ const App = () => {
         :
         <>
         {
-            window.location.pathname !== '/login' && 
-            window.location.pathname !== '/forget-password' && 
-            window.location.pathname !== '/reset-password' && <Sidebar />
+            !window.location.pathname.startsWith('/login') &&
+            !window.location.pathname.startsWith('/forget-password') &&
+            !window.location.pathname.startsWith('/reset-password') &&
+            <Sidebar />
         }
         <Routes>
             <Route exact path='/' element={<IndexPage />} />
